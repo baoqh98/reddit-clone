@@ -1,14 +1,10 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const path = require('path');
 
-import postRoutes from './routes/postRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-
-import insertDataRoutes from './routes/insertDataRoutes.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const postRoutes = require('./routes/postRoutes');
+const userRoutes = require('./routes/userRoutes');
+const commentRoutes = require('./routes/commentRoutes');
+const insertDataRoutes = require('./routes/insertDataRoutes');
 
 const router = express.Router();
 
@@ -25,7 +21,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', route);
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
 
 app.use('/api/insertData', insertDataRoutes);
 
-export default app;
+module.exports = app;

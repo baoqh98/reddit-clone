@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
   {
@@ -45,6 +45,33 @@ postSchema.virtual('comments', {
   localField: '_id',
 });
 
+postSchema.pre('find', function (next) {
+  this.populate({
+    path: 'comments',
+    select: '_id -post',
+  });
+
+  next();
+});
+
+postSchema.pre('findOne', function (next) {
+  this.populate({
+    path: 'comments',
+    populate: {
+      path: 'user',
+      select: 'username',
+    },
+    select: '-createdAt -updatedAt -__v',
+  })
+    .populate({
+      path: 'author',
+      select: 'username',
+    })
+    .select('-__v');
+
+  next();
+});
+
 const Post = mongoose.model('Post', postSchema);
 
-export default Post;
+module.exports = Post;

@@ -8,5 +8,6 @@
   "vs-code-prettier-eslint.prettierLast": "false",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  } // set as "true" to run 'prettier' last not first
+  },
+  "editor.tabSize": 2 // set as "true" to run 'prettier' last not first
 }

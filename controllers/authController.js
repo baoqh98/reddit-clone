@@ -1,8 +1,8 @@
-import User from '../models/userModel.js';
-import { catchAsync } from '../utils/catchAsync.js';
-import AppError from '../utils/AppError.js';
+const User = require('../models/userModel.js');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
 
-export const signUp = catchAsync(async (req, res, next) => {
+exports.signUp = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     username: req.body.username,
     password: req.body.password,
@@ -16,7 +16,7 @@ export const signUp = catchAsync(async (req, res, next) => {
   });
 });
 
-export const logIn = catchAsync(async (req, res, next) => {
+exports.logIn = catchAsync(async (req, res, next) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username }).select('+password');
 

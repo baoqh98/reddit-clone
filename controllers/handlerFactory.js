@@ -1,6 +1,7 @@
-import { catchAsync } from '../utils/catchAsync.js';
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
 
-export const deleteOne = (Model) =>
+exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     await Model.findByIdAndDelete(req.params.id);
 
@@ -10,12 +11,16 @@ export const deleteOne = (Model) =>
     });
   });
 
-export const updateOne = (Model) =>
+exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
+
+    if (!doc) {
+      return AppError(new AppError('Can not find document', 404));
+    }
 
     res.status(201).json({
       status: 'success',
@@ -23,7 +28,7 @@ export const updateOne = (Model) =>
     });
   });
 
-export const createOne = (Model) =>
+exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
@@ -33,9 +38,13 @@ export const createOne = (Model) =>
     });
   });
 
-export const getOne = (Model) =>
+exports.getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);
+
+    if (!doc) {
+      return next(new AppError('There is no document', 404));
+    }
 
     res.status(200).json({
       status: 'success',
@@ -43,7 +52,7 @@ export const getOne = (Model) =>
     });
   });
 
-export const getAll = (Model) =>
+exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const docs = await Model.find();
 

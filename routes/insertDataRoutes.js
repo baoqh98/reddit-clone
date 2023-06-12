@@ -1,10 +1,13 @@
-import express from 'express';
-import { insertMany } from '../utils/insertMany.js';
-import Post from '../models/postModel.js';
-import { postData } from '../public/js/postData.js'; 
+const express = require('express');
+const { insertMany } = require('../utils/insertMany');
+const Post = require('../models/postModel');
+const Comment = require('../models/commentModel');
+const postData = require('../public/js/postData');
+const commentData = require('../public/js/commentData');
 
 const router = express.Router();
 
-router.route('/post').post(() => insertMany(Post, postData));
+router.route('/post').post(insertMany(Post, postData));
+router.route('/comment').post(insertMany(Comment, commentData));
 
-export default router;
+module.exports = router;
