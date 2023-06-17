@@ -1,7 +1,7 @@
 const express = require('express');
 const { insertMany } = require('../utils/insertMany');
 const Post = require('../models/postModel');
-const Comment = require('../models/commentModel');
+const Comment = require('../models/commentPostModel');
 const postData = require('../public/js/postData');
 const commentData = require('../public/js/commentData');
 

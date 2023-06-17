@@ -5,7 +5,7 @@ const {
   updateOne,
   deleteOne,
 } = require('./handlerFactory');
-const Comment = require('../models/commentModel');
+const Comment = require('../models/commentPostModel');
 
 exports.getAllComment = getAll(Comment);
 exports.getComment = getOne(Comment);

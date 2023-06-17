@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const postSchema = new mongoose.Schema(
   {
@@ -19,14 +20,14 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Cannot post without a topic'],
     },
-    vote: {
-      type: Number,
-      default: 0,
-    },
     nsfw: {
       type: Boolean,
       default: false,
     },
+    mediaLocation: {
+      type: String,
+    },
+    slug: String,
     created: {
       type: Date,
       default: Date.now(),
@@ -43,6 +44,12 @@ postSchema.virtual('comments', {
   ref: 'Comment',
   foreignField: 'post',
   localField: '_id',
+});
+
+postSchema.post('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+
+  next();
 });
 
 postSchema.pre('find', function (next) {
