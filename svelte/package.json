@@ -16,11 +16,17 @@
     "postcss": "^8.4.23",
     "postcss-load-config": "^4.0.1",
     "prettier": "^2.8.8",
+    "sass": "^1.63.4",
     "svelte": "^3.54.0",
     "svelte-preprocess": "^5.0.3",
     "tailwindcss": "^3.3.1",
     "vite": "^4.3.0"
   },
   "type": "module",
-  "format": "prettier --write --plugin-search-dir=. ./**/*.html"
+  "format": "prettier --write --plugin-search-dir=. ./**/*.html",
+  "dependencies": {
+    "@tiptap/core": "^2.0.3",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/starter-kit": "^2.0.3"
+  }
 }

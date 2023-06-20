@@ -43,7 +43,7 @@
       <a href="/signup" class="text-gray-700 hover:text-black mr-4">Sign Up</a>
       <a
         href="/login"
-        class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-full"
+        class="bg-primary-500 hover:bg-primary-600 text-white font-bold btn rounded-full"
       >
         Login
       </a>
