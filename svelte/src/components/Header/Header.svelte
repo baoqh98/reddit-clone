@@ -1,41 +1,35 @@
 <script>
   import { Avatar, Autocomplete } from "@skeletonlabs/skeleton";
-  import { clickOutside } from "../../DOM/utils/clickOutside";
+  import { clickOutside } from "../../utils/DOM/clickOutside";
+  import { onMount } from "svelte";
+  import { url_api } from "../../utils/global/url";
+  import axios from "axios";
+
+  const topicEndpoint = `${url_api}/topic`;
+
   let searchValue = "";
   let isShowAutoComplete = false;
-
-  const flavorOptions = [
-    {
-      label: "Vanilla",
-      value: "vanilla",
-      keywords: "plain, basic",
-      meta: { healthy: false },
-    },
-    {
-      label: "Chocolate",
-      value: "chocolate",
-      keywords: "dark, white",
-      meta: { healthy: false },
-    },
-    {
-      label: "Strawberry",
-      value: "strawberry",
-      keywords: "fruit",
-      meta: { healthy: true },
-    },
-  ];
+  let searchOptions = [];
 
   function onFlavorSelection(event) {
     searchValue = event.detail.label;
     isShowAutoComplete = false;
-
-    console.log(searchValue);
   }
 
   function onShowAutocomplete() {
     searchValue = "";
     isShowAutoComplete = !isShowAutoComplete;
   }
+
+  onMount(async () => {
+    const res = await axios.get(topicEndpoint);
+    searchOptions = res.data.data.map((item) => ({
+      label: item.topic,
+      value: item.topic,
+      keywords: item.topic,
+      meta: item._id,
+    }));
+  });
 </script>
 
 <header class="bg-white shadow-md">
@@ -55,7 +49,7 @@
         <input
           bind:value={searchValue}
           type="search"
-          placeholder="Search Reddit"
+          placeholder="Search Reddit Post"
           class="focus:border-secondary-500 focus-within:border-secondary-500 rounded-t-lg"
           on:click={onShowAutocomplete}
         />
@@ -69,7 +63,7 @@
         >
           <Autocomplete
             bind:input={searchValue}
-            options={flavorOptions}
+            options={searchOptions}
             on:selection={onFlavorSelection}
             class="text-sm"
           />
@@ -78,7 +72,8 @@
     </div>
 
     <div class="flex items-center">
-      <a href="/signup" class="text-gray-700 hover:text-black mr-4">Sign Up</a>
+      <a href="/register" class="text-gray-700 hover:text-black mr-4">Sign Up</a
+      >
       <a
         href="/login"
         class="bg-primary-500 hover:bg-primary-600 text-white font-bold btn rounded-full"

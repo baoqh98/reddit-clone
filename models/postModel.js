@@ -8,24 +8,30 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Post must belong to a user'],
     },
+    topic: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, 'Cannot post without a topic'],
+      ref: 'Topic',
+    },
     title: {
       type: String,
       required: [true, 'Post need a title'],
     },
     content: {
       type: String,
-      required: [true, 'Cannot post without a content'],
+      require: function () {
+        !this.mediaLocation;
+      },
     },
-    topic: {
+    mediaLocation: {
       type: String,
-      required: [true, 'Cannot post without a topic'],
+      require: function () {
+        !this.content;
+      },
     },
     nsfw: {
       type: Boolean,
       default: false,
-    },
-    mediaLocation: {
-      type: String,
     },
     slug: String,
     created: {
