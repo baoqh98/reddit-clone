@@ -7,6 +7,7 @@
   const topicEndpoint = `${url_api}/topic`;
 
   let topics = [];
+  let files;
 
   let nsfw = false;
   let post = {
@@ -32,6 +33,10 @@
 
   async function submitPost() {
     console.log({ ...post });
+  }
+
+  function onSelectImageHandler(e) {
+    console.log(files);
   }
 
   onMount(async () => {
@@ -75,31 +80,38 @@
   <div class="card border border-slate-300 p-3 flex flex-col gap-4">
     <TabGroup>
       <Tab
-        id="things"
+        class="border-none {tabSet === 0
+          ? 'bg-secondary-50'
+          : 'hover:bg-secondary-50 hover:text-gray-400 text-gray-400'}"
         bind:group={tabSet}
         name="content"
-        class={`text-[16px] border-none ${
-          tabSet === 0 ? "text-secondary-500" : "text-gray-300"
-        }`}
         value={0}
       >
-        <svelte:fragment slot="lead"
-          ><i class="fa-solid fa-paragraph" /></svelte:fragment
+        <div
+          class="flex flex-row items-center h-full gap-2 {tabSet === 0
+            ? 'text-secondary-500 hover:text-secondary-500 [&>i]:rounded [&>i]:text-secondary-500'
+            : ''}"
         >
-        <span>Content</span>
+          <i class="fa-solid fa-paragraph" />
+          <span class="text-md font-bold">Content</span>
+        </div>
       </Tab>
       <Tab
+        class="border-none {tabSet === 1
+          ? 'bg-secondary-50'
+          : 'hover:bg-secondary-50 hover:text-gray-400 text-gray-400'}"
         bind:group={tabSet}
-        name="media"
+        name="image"
         value={1}
-        class={`text-[16px] border-none ${
-          tabSet === 1 ? "text-secondary-500" : "text-gray-300"
-        }`}
       >
-        <svelte:fragment slot="lead"
-          ><i class="fa-solid fa-image" /></svelte:fragment
+        <div
+          class="flex flex-row items-center h-full gap-2 {tabSet === 1
+            ? 'text-secondary-500 hover:text-secondary-500 [&>i]:rounded [&>i]:text-secondary-500'
+            : ''}"
         >
-        <span>Image</span></Tab
+          <i class="fa-solid fa-image" />
+          <span class="text-md font-bold">Image</span>
+        </div></Tab
       >
       <!-- Tab Panels --->
       <svelte:fragment slot="panel">
@@ -124,13 +136,17 @@
           <FileDropzone
             name="import_media"
             class="active:border-secondary-500 focus:border-secondary-500 focus-within:border-secondary-500"
+            bind:files
+            on:change={onSelectImageHandler}
           >
             <svelte:fragment slot="lead"
               ><i class="fa-solid fa-photo-film text-[24px]" /></svelte:fragment
             >
-            <svelte:fragment slot="message"
-              >Drag and or click to import image</svelte:fragment
-            >
+            <svelte:fragment slot="message">
+              {files
+                ? `${"filename: " + files[0].name}`
+                : "Drag and or click to import image"}
+            </svelte:fragment>
             <svelte:fragment slot="meta"
               >PNG, JPEG and GIF allowed</svelte:fragment
             >
