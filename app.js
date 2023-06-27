@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'svelte', 'public')));
 
 // 3) routes
@@ -29,9 +29,5 @@ app.use('/api/comment', commentRoutes);
 app.use('/api/insertData', insertDataRoutes);
 
 app.use(globalErrorHandler);
-
-app.get('/', (req, res) => {
-  res.sendFile('index.html');
-});
 
 module.exports = app;

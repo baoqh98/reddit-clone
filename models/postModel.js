@@ -4,9 +4,19 @@ const slugify = require('slugify');
 const postSchema = new mongoose.Schema(
   {
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
+      // type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'Post must belong to a user'],
+    },
+    postType: {
+      type: String,
+      enum: ['content', 'media'],
+      require: true,
+      default: function () {
+        if (this.mediaLocation) return 'media';
+        else return 'content';
+      },
     },
     topic: {
       type: mongoose.Schema.Types.ObjectId,
@@ -19,22 +29,25 @@ const postSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      require: function () {
-        !this.mediaLocation;
+      validate: function (val) {
+        if (this.postType === 'content' && !val) return false;
+        else return true;
       },
     },
     mediaLocation: {
       type: String,
-      require: function () {
-        !this.content;
+      validate: function (val) {
+        if (this.postType === 'media' && !val) return false;
+        else return true;
       },
     },
+    vote: { type: Number, default: 0 },
     nsfw: {
       type: Boolean,
       default: false,
     },
     slug: String,
-    created: {
+    createdAt: {
       type: Date,
       default: Date.now(),
     },
@@ -52,9 +65,8 @@ postSchema.virtual('comments', {
   localField: '_id',
 });
 
-postSchema.post('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-
+postSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true });
   next();
 });
 

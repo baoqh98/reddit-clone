@@ -1,25 +1,36 @@
 <script>
-  import { FileDropzone, TabGroup, Tab } from "@skeletonlabs/skeleton";
+  import {
+    FileDropzone,
+    TabGroup,
+    Tab,
+    Toast,
+    toastStore,
+  } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
-  import axios from "axios";
+  import { goto } from "$app/navigation";
+  import axios, { AxiosError } from "axios";
   import { url_api } from "../../utils/global/url";
 
   const topicEndpoint = `${url_api}/topic`;
+  const photoPostEndpoint = `${url_api}/post/mediaPost`;
+  const contentPostEndpoint = `${url_api}/post`;
 
   let topics = [];
   let files;
-
   let nsfw = false;
+  let tabSet = 0;
   let post = {
+    author: "test",
     title: "",
     content: "",
-    nsfw: false,
     topic: "",
-    mediaLocation: "",
+    nsfw,
   };
 
-  // Tab
-  let tabSet = 0;
+  const toastSetting = {
+    message: "Something wrong!",
+    background: "variant-ghost-error",
+  };
 
   function toggleNsfw() {
     nsfw = !nsfw;
@@ -32,11 +43,42 @@
   }
 
   async function submitPost() {
-    console.log({ ...post });
-  }
-
-  function onSelectImageHandler(e) {
-    console.log(files);
+    try {
+      let res;
+      if (tabSet === 0) {
+        if (!post.topic) {
+          throw new AxiosError("Please select topic", "400");
+        }
+        res = await axios.post(contentPostEndpoint, { ...post });
+      } else {
+        const formData = new FormData();
+        if (!files) toastSetting.message = "there is no file";
+        formData.append("file", files[0]);
+        for (const key in post) {
+          formData.append(key, post[key]);
+        }
+        res = await axios.post(photoPostEndpoint, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+      if (res.data.status === "success") {
+        toastSetting.message = "Created Post successfully!";
+        toastSetting.background = "variant-ghost-success";
+        toastSetting.callback = (response) => {
+          if (response.status === "closed") goto("/");
+        };
+        toastStore.trigger(toastSetting);
+      }
+    } catch (error) {
+      if (error.code === "400") {
+        toastSetting.message = error.message;
+      } else {
+        toastSetting.message = error.response.data.message;
+      }
+      toastStore.trigger(toastSetting);
+    }
   }
 
   onMount(async () => {
@@ -46,6 +88,7 @@
 </script>
 
 <div class="flex flex-col my-4 gap-4">
+  <Toast />
   <div class="flex flex-col">
     <div class="flex flex-row justify-between items-center mb-2">
       <h1 class="text-lg font-semibold text-[20px]">Create a Post</h1>
@@ -71,7 +114,7 @@
           <option value="">Select a topic</option>
         {/if}
         {#each topics as topic}
-          <option value={topic.topic}>{topic.topic}</option>
+          <option value={topic._id}>{topic.topic}</option>
         {/each}
       </select>
     </label>
@@ -137,7 +180,6 @@
             name="import_media"
             class="active:border-secondary-500 focus:border-secondary-500 focus-within:border-secondary-500"
             bind:files
-            on:change={onSelectImageHandler}
           >
             <svelte:fragment slot="lead"
               ><i class="fa-solid fa-photo-film text-[24px]" /></svelte:fragment
@@ -170,8 +212,10 @@
     <hr />
 
     <div class="flex justify-end">
-      <button class="btn variant-filled-primary" on:click={submitPost}
-        >Post</button
+      <button
+        type="submit"
+        class="btn variant-filled-primary"
+        on:click={submitPost}>Post</button
       >
     </div>
   </div>

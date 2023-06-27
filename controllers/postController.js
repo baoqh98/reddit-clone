@@ -1,3 +1,5 @@
+// @ts-ignore: Deprecated constructor syntax
+const mongoose = require('mongoose');
 const {
   getAll,
   getOne,
@@ -7,35 +9,31 @@ const {
 } = require('./handlerFactory');
 const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
-const multer = require('multer');
-const AppError = require('../utils/AppError');
+const { uploadPostImage } = require('../models/cloudinaryModel');
 
 // upload photo
-
-const multerFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-  if (!allowedTypes.includes(file.mimetype)) {
-    cb(new AppError('Reddit only accept .jpeg .jpg and .png file extension'));
-  } else {
-    cb(null, true);
-  }
-};
-
-const upload = multer({ fileFilter: multerFilter });
-exports.resizePhoto = catchAsync(async (req, res, next) => {
-  console.log('resize photo');
-
-  next();
-});
-
 exports.createPostWithPhoto = catchAsync(async (req, res, next) => {
-  console.log(req.files);
+  const result = await uploadPostImage(req.file.path);
 
-  next();
+  const post = await Post.create({
+    author: req.body.author,
+    title: req.body.title,
+    topic: new mongoose.Types.ObjectId(req.body.topic),
+    mediaLocation: result.url,
+    nsfw: req.body.nsfw,
+  });
+
+  const savedPost = await post.save();
+
+  res.status(201).json({
+    status: 'success',
+    data: savedPost,
+  });
 });
 
+// specific controller
 exports.getAllPost = getAll(Post);
 exports.getPost = getOne(Post);
-exports.createPost = createOne(Post);
+exports.createPostWithContent = createOne(Post);
 exports.updatePost = updateOne(Post);
 exports.deletePost = deleteOne(Post);

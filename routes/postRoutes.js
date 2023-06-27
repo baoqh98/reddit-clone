@@ -1,19 +1,18 @@
 const express = require('express');
 const {
   getAllPost,
-  createPost,
   getPost,
   updatePost,
   deletePost,
   createPostWithPhoto,
-  resizePhoto,
+  createPostWithContent,
 } = require('../controllers/postController');
+const upload = require('../controllers/uploadController');
 
 const router = express.Router();
 
-router.route('/').get(getAllPost).post(createPost);
+router.route('/').get(getAllPost).post(createPostWithContent);
+router.route('/mediaPost').post(upload.single('file'), createPostWithPhoto);
 router.route('/:id').get(getPost).patch(updatePost).delete(deletePost);
-
-router.route('/').post(createPostWithPhoto, resizePhoto);
 
 module.exports = router;

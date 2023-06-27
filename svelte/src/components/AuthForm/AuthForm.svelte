@@ -7,8 +7,6 @@
   function register() {
     console.log("Registering user:", { username, email, password });
   }
-
-  export let formType;
 </script>
 
 <div
@@ -34,7 +32,7 @@
         <input
           class="input focus:border-secondary-500 focus-within:border-secondary-500"
           type="text"
-          id="username"
+          id="email"
           placeholder="email"
           bind:value={email}
         />
@@ -46,7 +44,7 @@
         <input
           class="input focus:border-secondary-500 focus-within:border-secondary-500"
           type="password"
-          id="username"
+          id="password"
           placeholder="password"
           bind:value={password}
         />
@@ -58,7 +56,7 @@
         <input
           class="input focus:border-secondary-500 focus-within:border-secondary-500"
           type="password"
-          id="username"
+          id="confirmPassword"
           placeholder="Confirm Password"
           bind:value={passwordConfirm}
         />
