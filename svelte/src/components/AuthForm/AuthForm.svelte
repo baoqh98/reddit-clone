@@ -1,14 +1,43 @@
 <script>
-  let username = "";
-  let email = "";
-  let password = "";
-  let passwordConfirm = "";
+  import { Toast, toastStore } from "@skeletonlabs/skeleton";
+  import { url_api } from "../../utils/global/url";
+  import axios, { AxiosError } from "axios";
 
-  function register() {
-    console.log("Registering user:", { username, email, password });
+  const registerEndpoint = `${url_api}/auth/register`;
+
+  let username = "username";
+  let email = "test@email.com";
+  let password = "password123";
+  let passwordConfirm = "password123";
+
+  let toastSetting = {
+    message: "Something wrong!",
+    background: "variant-filled-error",
+    classes: "text-white",
+  };
+
+  async function register() {
+    try {
+      const registerForm = {
+        username,
+        email,
+        password,
+        passwordConfirm,
+      };
+
+      await axios.post(registerEndpoint, registerForm);
+
+      toastSetting.message = `Register successfully!`;
+      toastSetting.background = "variant-filled-success";
+      toastStore.trigger(toastSetting);
+    } catch (error) {
+      toastSetting.message = error.response.data.message;
+      toastStore.trigger(toastSetting);
+    }
   }
 </script>
 
+<Toast class="text-white" />
 <div
   class="card p-4 rounded-lg border border-slate-300 hover:border-slate-400 shadow-lg"
 >
