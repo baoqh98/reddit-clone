@@ -8,7 +8,7 @@
   import "../app.postcss";
   import { AppShell } from "@skeletonlabs/skeleton";
   import Header from "../components/Header/Header.svelte";
-  import Error from "../pages/Error.svelte";
+  // import Error from "../pages/Error.svelte";
   import { goto } from "$app/navigation";
 
   function isPageError(statusCode) {
@@ -24,6 +24,4 @@
     </svelte:fragment>
     <slot />
   </AppShell>
-{:else if isPageError($page.status)}
-  <Error />
 {/if}

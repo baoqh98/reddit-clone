@@ -11,13 +11,12 @@
   onMount(async () => {
     const res = (await axios.get(postEndpoint)).data;
     posts = res.data;
-    console.log(posts);
   });
 </script>
 
 {#each posts as post}
   <div
-    on:click={() => goto(`/post/${post._id}`)}
+    on:click={() => goto(`/post/${post._id}_${post.slug}`)}
     on:keydown
     class="card border border-slate-300 hover:border-slate-400 cursor-pointer overflow-hidden"
   >
@@ -50,7 +49,7 @@
                 width="w-6"
                 rounded="rounded-full"
               />
-              <div class="text-xs font-semibold">r/{post.topic}</div>
+              <div class="text-xs font-semibold">r/{post.topic.topic}</div>
             </div>
             <div class="h-4 border-[1px]" />
             <div class="text-xs font-light text-gray-500">

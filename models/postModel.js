@@ -70,29 +70,23 @@ postSchema.pre('save', function (next) {
   next();
 });
 
-postSchema.pre('find', function (next) {
+postSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comments',
-    select: '_id -post',
+    select: '_id',
+  }).populate({
+    path: 'topic',
+    select: 'topic',
   });
 
   next();
 });
 
 postSchema.pre('findOne', function (next) {
-  this.populate({
-    path: 'comments',
-    populate: {
-      path: 'user',
-      select: 'username',
-    },
-    select: '-createdAt -updatedAt -__v',
-  })
-    .populate({
-      path: 'author',
-      select: 'username',
-    })
-    .select('-__v');
+  // this.populate({
+  //   path: 'author',
+  //   select: 'username',
+  // }).select('-__v');
 
   next();
 });

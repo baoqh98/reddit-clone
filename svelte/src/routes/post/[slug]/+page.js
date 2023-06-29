@@ -1,7 +1,7 @@
-import { error } from '@sveltejs/kit';
+// import { error } from '@sveltejs/kit';
 
-export function load({ params }) {
+// export function load({ params }) {
     
-
-    throw error(404, 'page Not found');
-}
+//     console.log(params.slug);
+//     throw error(404, 'page Not found');
+// }
