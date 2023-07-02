@@ -4,18 +4,26 @@
   import axios from "axios";
 
   const registerEndpoint = `${url_api}/auth/register`;
+  const loginEndpoint = `${url_api}/auth/login`;
 
   let username = "username";
   let email = "test@email.com";
   let password = "password123";
   let passwordConfirm = "password123";
 
-  let toastSetting = {
-    message: "Something wrong!",
-    background: "variant-filled-error",
-    classes: "text-white",
+  const handleToastSetting = (
+    message = "Something wrong!",
+    background = "variant-filled-error",
+    classes = "text-white"
+  ) => {
+    return {
+      message,
+      background,
+      classes,
+    };
   };
 
+  let toastSetting;
   async function register() {
     try {
       const registerForm = {
@@ -26,12 +34,37 @@
       };
 
       await axios.post(registerEndpoint, registerForm);
-
-      toastSetting.message = `Register successfully!`;
-      toastSetting.background = "variant-filled-success";
+      toastSetting = {
+        ...handleToastSetting(
+          `Register successfully!`,
+          "variant-filled-success"
+        ),
+      };
       toastStore.trigger(toastSetting);
     } catch (error) {
-      toastSetting.message = error.response.data.message;
+      toastSetting = { ...handleToastSetting(error.response.data.message) };
+      toastStore.trigger(toastSetting);
+    }
+  }
+
+  async function login() {
+    try {
+      const loginForm = {
+        username,
+        password,
+      };
+
+      const res = (await axios.post(loginEndpoint, loginForm)).data;
+      document.cookie = "jwt_accessToken" + "=" + res.data.accessToken;
+      document.cookie = "jwt_refreshToken" + "=" + res.data.userRefreshToken;
+
+      toastSetting = {
+        ...handleToastSetting(`Loggin successfully!`, "variant-filled-success"),
+      };
+      toastStore.trigger(toastSetting);
+    } catch (error) {
+      console.log(error);
+      toastSetting = { ...handleToastSetting(error.response.data.message) };
       toastStore.trigger(toastSetting);
     }
   }
@@ -54,7 +87,12 @@
           Login your account
         {/if}
       </h1>
-      <form on:submit|preventDefault={register} class="flex flex-col gap-3">
+      <form
+        on:submit|preventDefault={authFormType === "register"
+          ? register
+          : login}
+        class="flex flex-col gap-3"
+      >
         <div class="w-full">
           <label class="label">
             <input
