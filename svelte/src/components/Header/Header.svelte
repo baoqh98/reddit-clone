@@ -1,5 +1,5 @@
 <script>
-  import { Avatar, Autocomplete } from "@skeletonlabs/skeleton";
+  import { Autocomplete } from "@skeletonlabs/skeleton";
   import { clickOutside } from "../../utils/DOM/clickOutside";
   import { onMount } from "svelte";
   import { url_api } from "../../utils/global/url";
@@ -30,6 +30,8 @@
       meta: item._id,
     }));
   });
+
+  // export let authFormType;
 </script>
 
 <header class="bg-white shadow-md">
@@ -72,10 +74,11 @@
     </div>
 
     <div class="flex items-center">
-      <a href="/register" class="text-gray-700 hover:text-black mr-4">Sign Up</a
+      <a href="/auth/register" class="text-gray-700 hover:text-black mr-4"
+        >Sign Up</a
       >
       <a
-        href="/login"
+        href="/auth/login"
         class="bg-primary-500 hover:bg-primary-600 text-white font-bold btn rounded-full"
       >
         Login

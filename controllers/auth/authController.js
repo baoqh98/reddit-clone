@@ -1,9 +1,10 @@
-const crypto = require('crypto');
-
 const User = require('../../models/userModel.js');
 const catchAsync = require('../../utils/catchAsync.js');
 const AppError = require('../../utils/AppError.js');
 const { generateToken, decodeToken } = require('./authMethods.js');
+
+const accessTokenSecret = process.env.JWT_SECRET;
+const accessTokenExpiresIn = process.env.JWT_EXPIRES_IN;
 
 exports.register = catchAsync(async (req, res, next) => {
   const username = req.body.username.trim();
@@ -30,9 +31,6 @@ exports.register = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const accessTokenSecret = process.env.JWT_SECRET;
-  const accessTokenExpiresIn = process.env.JWT_EXPIRES_IN;
-
   const username = req.body.username.trim();
   const password = req.body.password;
 
@@ -78,9 +76,6 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.refreshToken = catchAsync(async (req, res, next) => {
-  const accessTokenSecret = process.env.JWT_SECRET;
-  const accessTokenExpiresIn = process.env.JWT_EXPIRES_IN;
-
   // get accessToken from headers
   let accessTokenHeader;
   if (
