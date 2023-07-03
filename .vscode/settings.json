@@ -1,5 +1,5 @@
 {
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": false, // required 
   "editor.formatOnType": false, // required
   "editor.formatOnSave": true, // optional 
@@ -11,6 +11,7 @@
   },
   "editor.tabSize": 2, // set as "true" to run 'prettier' last not first,
   "[svelte]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
 }

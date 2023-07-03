@@ -5,11 +5,11 @@
     Tab,
     Toast,
     toastStore,
-  } from "@skeletonlabs/skeleton";
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
-  import axios, { AxiosError } from "axios";
-  import { url_api } from "../../utils/global/url";
+  } from '@skeletonlabs/skeleton';
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import axios, { AxiosError } from 'axios';
+  import { url_api } from '../../utils/global/url';
 
   const topicEndpoint = `${url_api}/topic`;
   const photoPostEndpoint = `${url_api}/post/mediaPost`;
@@ -20,16 +20,16 @@
   let nsfw = false;
   let tabSet = 0;
   let post = {
-    author: "test",
-    title: "",
-    content: "",
-    topic: "",
+    author: 'test',
+    title: '',
+    content: '',
+    topic: '',
     nsfw,
   };
 
   const toastSetting = {
-    message: "Something wrong!",
-    background: "variant-ghost-error",
+    message: 'Something wrong!',
+    background: 'variant-ghost-error',
   };
 
   function toggleNsfw() {
@@ -37,9 +37,25 @@
     post.nsfw = nsfw;
   }
   function handleOnkeyDownSpan(event) {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       toggleNsfw();
     }
+  }
+
+  function getCookie(cname) {
+    let name = cname + '=';
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return '';
   }
 
   async function submitPost() {
@@ -47,32 +63,42 @@
       let res;
       if (tabSet === 0) {
         if (!post.topic) {
-          throw new AxiosError("Please select topic", "400");
+          throw new AxiosError('Please select topic', '400');
         }
-        res = await axios.post(contentPostEndpoint, { ...post });
+        res = await axios.post(
+          contentPostEndpoint,
+          { ...post },
+          {
+            headers: {
+              Authorization: `${getCookie('jwt')}`,
+            },
+          }
+        );
       } else {
         const formData = new FormData();
-        if (!files) toastSetting.message = "there is no file";
-        formData.append("file", files[0]);
+        if (!files) toastSetting.message = 'there is no file';
+        formData.append('file', files[0]);
         for (const key in post) {
           formData.append(key, post[key]);
         }
         res = await axios.post(photoPostEndpoint, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
+            Authorization: `${getCookie('jwt')}`,
           },
         });
       }
-      if (res.data.status === "success") {
-        toastSetting.message = "Created Post successfully!";
-        toastSetting.background = "variant-ghost-success";
+      if (res.data.status === 'success') {
+        toastSetting.message = 'Created Post successfully!';
+        toastSetting.background = 'variant-ghost-success';
         toastSetting.callback = (response) => {
-          if (response.status === "closed") goto("/");
+          if (response.status === 'closed') goto('/');
         };
         toastStore.trigger(toastSetting);
       }
     } catch (error) {
-      if (error.code === "400") {
+      console.log(error);
+      if (error.code === '400') {
         toastSetting.message = error.message;
       } else {
         toastSetting.message = error.response.data.message;
@@ -110,7 +136,7 @@
         class="select border-slate-300 focus:border-secondary-500 focus-within:border-secondary-500"
         bind:value={post.topic}
       >
-        {#if post.topic === ""}
+        {#if post.topic === ''}
           <option value="">Select a topic</option>
         {/if}
         {#each topics as topic}
@@ -186,8 +212,8 @@
             >
             <svelte:fragment slot="message">
               {files
-                ? `${"filename: " + files[0].name}`
-                : "Drag and or click to import image"}
+                ? `${'filename: ' + files[0].name}`
+                : 'Drag and or click to import image'}
             </svelte:fragment>
             <svelte:fragment slot="meta"
               >PNG, JPEG and GIF allowed</svelte:fragment
@@ -199,8 +225,8 @@
             on:click={toggleNsfw}
             on:keydown={handleOnkeyDownSpan}
             class={nsfw
-              ? "chip variant-filled-secondary"
-              : "chip bg-slate-200  hover:bg-slate-400"}
+              ? 'chip variant-filled-secondary'
+              : 'chip bg-slate-200  hover:bg-slate-400'}
           >
             <span><i class="fa-solid fa-check" /></span>
             <span>not safe for work</span>

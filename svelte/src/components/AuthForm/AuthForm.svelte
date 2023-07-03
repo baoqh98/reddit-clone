@@ -1,29 +1,17 @@
 <script>
-  import { Toast, toastStore } from "@skeletonlabs/skeleton";
-  import { url_api } from "../../utils/global/url";
-  import axios from "axios";
+  import { Toast } from '@skeletonlabs/skeleton';
+  import { url_api } from '../../utils/global/url';
+  import axios from 'axios';
+  import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
 
   const registerEndpoint = `${url_api}/auth/register`;
   const loginEndpoint = `${url_api}/auth/login`;
 
-  let username = "username";
-  let email = "test@email.com";
-  let password = "password123";
-  let passwordConfirm = "password123";
+  let username = '';
+  let email = '';
+  let password = '';
+  let passwordConfirm = '';
 
-  const handleToastSetting = (
-    message = "Something wrong!",
-    background = "variant-filled-error",
-    classes = "text-white"
-  ) => {
-    return {
-      message,
-      background,
-      classes,
-    };
-  };
-
-  let toastSetting;
   async function register() {
     try {
       const registerForm = {
@@ -34,16 +22,9 @@
       };
 
       await axios.post(registerEndpoint, registerForm);
-      toastSetting = {
-        ...handleToastSetting(
-          `Register successfully!`,
-          "variant-filled-success"
-        ),
-      };
-      toastStore.trigger(toastSetting);
+      handleToastSetting(`Register successfully!`, 'variant-filled-success');
     } catch (error) {
-      toastSetting = { ...handleToastSetting(error.response.data.message) };
-      toastStore.trigger(toastSetting);
+      handleToastSetting(error.response.data.message);
     }
   }
 
@@ -55,24 +36,20 @@
       };
 
       const res = (await axios.post(loginEndpoint, loginForm)).data;
-      document.cookie = "jwt_accessToken" + "=" + res.data.accessToken;
-      document.cookie = "jwt_refreshToken" + "=" + res.data.userRefreshToken;
+      document.cookie = 'jwt' + '=' + 'Bearer ' + res.data.accessToken;
+      document.cookie =
+        'jwt_refreshToken' + '=' + 'Bearer ' + res.data.userRefreshToken;
 
-      toastSetting = {
-        ...handleToastSetting(`Loggin successfully!`, "variant-filled-success"),
-      };
-      toastStore.trigger(toastSetting);
+      handleToastSetting(`Loggin successfully!`, 'variant-filled-success');
     } catch (error) {
-      console.log(error);
-      toastSetting = { ...handleToastSetting(error.response.data.message) };
-      toastStore.trigger(toastSetting);
+      handleToastSetting(error.response.data.message);
     }
   }
 
   export let authFormType;
 </script>
 
-<Toast class="text-white" />
+<Toast />
 
 <div class="container max-w-sm py-6">
   <div class="flex flex-col mt-[120px]">
@@ -81,14 +58,14 @@
     >
       <div />
       <h1 class="text-xl font-bold my-4 text-center">
-        {#if authFormType == "register"}
+        {#if authFormType == 'register'}
           Sign up your account
-        {:else if authFormType === "login"}
+        {:else if authFormType === 'login'}
           Login your account
         {/if}
       </h1>
       <form
-        on:submit|preventDefault={authFormType === "register"
+        on:submit|preventDefault={authFormType === 'register'
           ? register
           : login}
         class="flex flex-col gap-3"
@@ -105,7 +82,7 @@
           </label>
         </div>
 
-        {#if authFormType === "register"}
+        {#if authFormType === 'register'}
           <div class="w-full">
             <label class="label">
               <input
@@ -131,7 +108,7 @@
           </label>
         </div>
 
-        {#if authFormType === "register"}
+        {#if authFormType === 'register'}
           <div class="w-full">
             <label class="label">
               <input
@@ -150,7 +127,7 @@
             type="submit"
             class="btn variant-filled-secondary rounded-full font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
           >
-            {#if authFormType === "register"}
+            {#if authFormType === 'register'}
               Register
             {:else}
               Login

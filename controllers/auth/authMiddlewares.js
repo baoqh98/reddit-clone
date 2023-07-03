@@ -5,6 +5,7 @@ const { decodeToken } = require('./authMethods');
 
 exports.authProtect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of it's there
+  console.log(req.headers);
   let accessToken;
   if (
     req.headers.authorization &&
