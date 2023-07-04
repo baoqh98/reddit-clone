@@ -4,7 +4,15 @@ const AppError = require('../../utils/AppError.js');
 const { generateToken, decodeToken } = require('./authMethods.js');
 
 const accessTokenSecret = process.env.JWT_SECRET;
-const accessTokenExpiresIn = process.env.JWT_EXPIRES_IN;
+const accessTokenExpiresIn = process.env.JWT_COOKIE_EXPIRES_IN;
+
+const sendTokenToCookie = (accessToken, req, res) => {
+  res.cookie('jwt', accessToken, {
+    expires: new Date(Date.now() + accessTokenExpiresIn * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
+};
 
 exports.register = catchAsync(async (req, res, next) => {
   const username = req.body.username.trim();
@@ -26,15 +34,13 @@ exports.register = catchAsync(async (req, res, next) => {
     status: 'success',
     data: newUser,
   });
-
-  next();
 });
 
 exports.login = catchAsync(async (req, res, next) => {
   const username = req.body.username.trim();
   const password = req.body.password;
 
-  //1) Check if email and password exist
+  //1) Check if email and password filled
   if (!username || !password)
     return next(new AppError('Please provide username and password', 400));
 
@@ -42,7 +48,7 @@ exports.login = catchAsync(async (req, res, next) => {
     '+password +userRefreshExpires'
   );
 
-  // 2) Check if user exists && password is correct
+  // 2) Check if user exists && password is exist
   if (!user || !(await user.checkPassword(password, user.password)))
     return next(new AppError(`Incorrect username or password`, 401));
 
@@ -63,8 +69,9 @@ exports.login = catchAsync(async (req, res, next) => {
   } else {
     refreshToken = user.userRefreshToken;
   }
-
-  return res.status(200).json({
+  user.password = undefined;
+  sendTokenToCookie(accessToken, req, res);
+  res.status(200).json({
     status: 'success',
     message: 'Login successfully!',
     data: {
@@ -74,6 +81,8 @@ exports.login = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.logout = catchAsync(async (req, res, next) => {});
 
 exports.refreshToken = catchAsync(async (req, res, next) => {
   // get accessToken from headers

@@ -10,6 +10,8 @@
   import { goto } from '$app/navigation';
   import axios, { AxiosError } from 'axios';
   import { url_api } from '../../utils/global/url';
+  import { getCookie } from '../../utils/cookie/getCookie';
+  import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
 
   const topicEndpoint = `${url_api}/topic`;
   const photoPostEndpoint = `${url_api}/post/mediaPost`;
@@ -27,11 +29,6 @@
     nsfw,
   };
 
-  const toastSetting = {
-    message: 'Something wrong!',
-    background: 'variant-ghost-error',
-  };
-
   function toggleNsfw() {
     nsfw = !nsfw;
     post.nsfw = nsfw;
@@ -42,24 +39,9 @@
     }
   }
 
-  function getCookie(cname) {
-    let name = cname + '=';
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return '';
-  }
-
   async function submitPost() {
     try {
+      console.log(getCookie('jwt'));
       let res;
       if (tabSet === 0) {
         if (!post.topic) {
@@ -89,21 +71,26 @@
         });
       }
       if (res.data.status === 'success') {
-        toastSetting.message = 'Created Post successfully!';
-        toastSetting.background = 'variant-ghost-success';
-        toastSetting.callback = (response) => {
-          if (response.status === 'closed') goto('/');
-        };
-        toastStore.trigger(toastSetting);
+        handleToastSetting(
+          'Created Post successfully!',
+          'variant-filled-success',
+          undefined,
+          (response) => {
+            if (response.status === 'closed') goto('/');
+          }
+        );
       }
     } catch (error) {
       console.log(error);
       if (error.code === '400') {
-        toastSetting.message = error.message;
+        handleToastSetting(error.message);
+      } else if (!error.response.config.headers.Authorization) {
+        handleToastSetting(
+          "Can't submit Post because you haven't logged in yet!"
+        );
       } else {
-        toastSetting.message = error.response.data.message;
+        handleToastSetting(error.response.data.message);
       }
-      toastStore.trigger(toastSetting);
     }
   }
 

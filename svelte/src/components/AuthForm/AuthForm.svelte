@@ -7,9 +7,9 @@
   const registerEndpoint = `${url_api}/auth/register`;
   const loginEndpoint = `${url_api}/auth/login`;
 
-  let username = '';
+  let username = 'username';
   let email = '';
-  let password = '';
+  let password = 'password123';
   let passwordConfirm = '';
 
   async function register() {
@@ -20,7 +20,6 @@
         password,
         passwordConfirm,
       };
-
       await axios.post(registerEndpoint, registerForm);
       handleToastSetting(`Register successfully!`, 'variant-filled-success');
     } catch (error) {
@@ -35,13 +34,15 @@
         password,
       };
 
-      const res = (await axios.post(loginEndpoint, loginForm)).data;
-      document.cookie = 'jwt' + '=' + 'Bearer ' + res.data.accessToken;
-      document.cookie =
-        'jwt_refreshToken' + '=' + 'Bearer ' + res.data.userRefreshToken;
-
+      const res = (
+        await axios.post(loginEndpoint, loginForm, {
+          withCredentials: true,
+        })
+      ).data;
+      console.log(res);
       handleToastSetting(`Loggin successfully!`, 'variant-filled-success');
     } catch (error) {
+      console.log(error);
       handleToastSetting(error.response.data.message);
     }
   }
