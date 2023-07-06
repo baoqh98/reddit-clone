@@ -1,11 +1,8 @@
 <script>
   import { Toast } from '@skeletonlabs/skeleton';
-  import { url_api } from '../../utils/global/url';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import axios from 'axios';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
-
-  const registerEndpoint = `${url_api}/auth/register`;
-  const loginEndpoint = `${url_api}/auth/login`;
 
   let username = 'username';
   let email = '';
@@ -20,7 +17,7 @@
         password,
         passwordConfirm,
       };
-      await axios.post(registerEndpoint, registerForm);
+      await axios.post(apiEndpoint.registerEndpoint, registerForm);
       handleToastSetting(`Register successfully!`, 'variant-filled-success');
     } catch (error) {
       handleToastSetting(error.response.data.message);
@@ -35,11 +32,10 @@
       };
 
       const res = (
-        await axios.post(loginEndpoint, loginForm, {
+        await axios.post(apiEndpoint.loginEndpoint, loginForm, {
           withCredentials: true,
         })
       ).data;
-      console.log(res);
       handleToastSetting(`Loggin successfully!`, 'variant-filled-success');
     } catch (error) {
       console.log(error);

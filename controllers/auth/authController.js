@@ -7,7 +7,7 @@ const accessTokenSecret = process.env.JWT_SECRET;
 const accessTokenExpiresIn = process.env.JWT_COOKIE_EXPIRES_IN;
 
 const sendTokenToCookie = (accessToken, req, res) => {
-  res.cookie('jwt', accessToken, {
+  res.cookie('reddit_clone_jwt', accessToken, {
     expires: new Date(Date.now() + accessTokenExpiresIn * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
@@ -54,7 +54,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 3) generate token
   const accessToken = await generateToken(
-    user.username,
+    user.id,
     accessTokenSecret,
     accessTokenExpiresIn
   );
@@ -81,8 +81,6 @@ exports.login = catchAsync(async (req, res, next) => {
     },
   });
 });
-
-exports.logout = catchAsync(async (req, res, next) => {});
 
 exports.refreshToken = catchAsync(async (req, res, next) => {
   // get accessToken from headers
@@ -118,7 +116,7 @@ exports.refreshToken = catchAsync(async (req, res, next) => {
 
   // generate new access token
   const newAccessToken = await generateToken(
-    user.username,
+    user.id,
     accessTokenSecret,
     accessTokenExpiresIn
   );
@@ -134,4 +132,9 @@ exports.refreshToken = catchAsync(async (req, res, next) => {
       user,
     },
   });
+});
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.clearCookie('reddit_clone_jwt');
+  res.status(200).json({ status: 'success', message: 'Log out successfully' });
 });

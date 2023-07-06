@@ -1,21 +1,10 @@
 <script>
-  import {
-    FileDropzone,
-    TabGroup,
-    Tab,
-    Toast,
-    toastStore,
-  } from '@skeletonlabs/skeleton';
+  import { FileDropzone, TabGroup, Tab, Toast } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import axios, { AxiosError } from 'axios';
-  import { url_api } from '../../utils/global/url';
-  import { getCookie } from '../../utils/cookie/getCookie';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
-
-  const topicEndpoint = `${url_api}/topic`;
-  const photoPostEndpoint = `${url_api}/post/mediaPost`;
-  const contentPostEndpoint = `${url_api}/post`;
 
   let topics = [];
   let files;
@@ -41,21 +30,12 @@
 
   async function submitPost() {
     try {
-      console.log(getCookie('jwt'));
       let res;
       if (tabSet === 0) {
         if (!post.topic) {
           throw new AxiosError('Please select topic', '400');
         }
-        res = await axios.post(
-          contentPostEndpoint,
-          { ...post },
-          {
-            headers: {
-              Authorization: `${getCookie('jwt')}`,
-            },
-          }
-        );
+        res = await axios.post(contentPostEndpoint, { ...post });
       } else {
         const formData = new FormData();
         if (!files) toastSetting.message = 'there is no file';
@@ -66,7 +46,7 @@
         res = await axios.post(photoPostEndpoint, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `${getCookie('jwt')}`,
+            Authorization: `${getCookie('reddit_clone_jwt')}`,
           },
         });
       }
@@ -95,7 +75,7 @@
   }
 
   onMount(async () => {
-    const res = (await axios.get(topicEndpoint)).data;
+    const res = (await axios.get(apiEndpoint.topicEndpoint)).data;
     topics = res.data;
   });
 </script>

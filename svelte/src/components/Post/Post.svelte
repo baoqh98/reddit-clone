@@ -1,15 +1,13 @@
 <script>
-  import { Avatar } from "@skeletonlabs/skeleton";
-  import { goto } from "$app/navigation";
-  import axios from "axios";
-  import { onMount } from "svelte";
-  import { url_api } from "../../utils/global/url";
-
-  const postEndpoint = `${url_api}/post`;
+  import { Avatar } from '@skeletonlabs/skeleton';
+  import { goto } from '$app/navigation';
+  import axios from 'axios';
+  import { onMount } from 'svelte';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
 
   let posts = [];
   onMount(async () => {
-    const res = (await axios.get(postEndpoint)).data;
+    const res = (await axios.get(apiEndpoint.contentPostEndpoint)).data;
     posts = res.data;
   });
 </script>
@@ -59,9 +57,9 @@
           <h1 class="text-black font-semibold">
             {post.title}
           </h1>
-          {#if post.postType === "media"}
+          {#if post.postType === 'media'}
             <img src={post.mediaLocation} alt={post.title} />
-          {:else if post.postType === "content"}
+          {:else if post.postType === 'content'}
             <p class="text-[16px]">
               {post.content}
             </p>

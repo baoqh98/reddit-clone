@@ -11,8 +11,8 @@ exports.authProtect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     accessToken = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.jwt) {
-    accessToken = req.cookies.jwt;
+  } else if (req.cookies.reddit_clone_jwt) {
+    accessToken = req.cookies.reddit_clone_jwt;
   }
 
   if (!accessToken) {
@@ -43,5 +43,31 @@ exports.authProtect = catchAsync(async (req, res, next) => {
   }
 
   req.user = currentUser;
+  next();
+});
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  console.log(req.cookies.reddit_clone_jwt);
+  if (req.cookies.reddit_clone_jwt) {
+    try {
+      // verify token
+      const decodedAccessToken = await decodeToken(
+        accessToken,
+        process.env.JWT_SECRET
+      );
+
+      console.log(decodedAccessToken);
+      // check if user still exist
+      const currentUser = await User.findOne(decodedAccessToken);
+      if (!currentUser) {
+        return next();
+      }
+      // 3) Check if user changed password after the token was issued
+      // THERE IS A LOGGED IN USER
+
+      next();
+    } catch (error) {}
+  }
+
   next();
 });

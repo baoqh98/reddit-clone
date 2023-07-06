@@ -8,22 +8,19 @@
   import '../app.postcss';
   import { AppShell } from '@skeletonlabs/skeleton';
   import Header from '../components/Header/Header.svelte';
-  import { getCookie } from '../utils/cookie/getCookie';
+
+  export let data;
 
   function isPageError(statusCode) {
     const firstDigit = Math.floor(statusCode / 100);
     return firstDigit === 4 || firstDigit === 5;
   }
-
-  const isAuth = () => {
-    const token = getCookie('jwt');
-  };
 </script>
 
 {#if !isPageError($page.status)}
   <AppShell>
     <svelte:fragment slot="header">
-      <Header />
+      <Header isAuthenticated={data.user.isAuthenticated} />
     </svelte:fragment>
     <slot />
   </AppShell>

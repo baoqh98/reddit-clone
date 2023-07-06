@@ -13,7 +13,9 @@ const { authProtect } = require('../controllers/auth/authMiddlewares');
 const router = express.Router();
 
 router.route('/').get(getAllPost).post(authProtect, createPostWithContent);
-router.route('/mediaPost').post(upload.single('file'), createPostWithPhoto);
+router
+  .route('/mediaPost')
+  .post(authProtect, upload.single('file'), createPostWithPhoto);
 router.route('/:id').get(getPost).patch(updatePost).delete(deletePost);
 
 module.exports = router;

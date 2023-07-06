@@ -1,13 +1,13 @@
 <script>
-  import { Autocomplete } from "@skeletonlabs/skeleton";
-  import { clickOutside } from "../../utils/DOM/clickOutside";
-  import { onMount } from "svelte";
-  import { url_api } from "../../utils/global/url";
-  import axios from "axios";
+  import { Autocomplete } from '@skeletonlabs/skeleton';
+  import { clickOutside } from '../../utils/DOM/clickOutside';
+  import { onMount } from 'svelte';
+  import axios from 'axios';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
 
-  const topicEndpoint = `${url_api}/topic`;
+  export let isAuthenticated;
 
-  let searchValue = "";
+  let searchValue = '';
   let isShowAutoComplete = false;
   let searchOptions = [];
 
@@ -17,12 +17,22 @@
   }
 
   function onShowAutocomplete() {
-    searchValue = "";
+    searchValue = '';
     isShowAutoComplete = !isShowAutoComplete;
   }
 
+  async function logout() {
+    try {
+      const res = await axios.get(apiEndpoint.logoutEndpoint, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   onMount(async () => {
-    const res = await axios.get(topicEndpoint);
+    const res = await axios.get(apiEndpoint.topicEndpoint);
     searchOptions = res.data.data.map((item) => ({
       label: item.topic,
       value: item.topic,
@@ -30,8 +40,6 @@
       meta: item._id,
     }));
   });
-
-  // export let authFormType;
 </script>
 
 <header class="bg-white shadow-md">
@@ -73,6 +81,10 @@
       {/if}
     </div>
 
+    {#if isAuthenticated === true}
+      <button class="btn variant-ghost-primary" on:click={logout}>logout</button
+      >
+    {/if}
     <div class="flex items-center">
       <a href="/auth/register" class="text-gray-700 hover:text-black mr-4"
         >Sign Up</a
