@@ -1,15 +1,20 @@
 <script>
-  import { Autocomplete } from '@skeletonlabs/skeleton';
-  import { clickOutside } from '../../utils/DOM/clickOutside';
+  import { Autocomplete, Avatar } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
   import axios from 'axios';
+  import { clickOutside } from '../../utils/DOM/clickOutside';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
 
-  export let isAuthenticated;
+  export let user;
 
   let searchValue = '';
   let isShowAutoComplete = false;
   let searchOptions = [];
+  let isShowNav = false;
+
+  function handleNavigation() {
+    isShowNav = !isShowNav;
+  }
 
   function onFlavorSelection(event) {
     searchValue = event.detail.label;
@@ -18,14 +23,17 @@
 
   function onShowAutocomplete() {
     searchValue = '';
+    s;
     isShowAutoComplete = !isShowAutoComplete;
   }
 
   async function logout() {
     try {
-      const res = await axios.get(apiEndpoint.logoutEndpoint, {
-        withCredentials: true,
-      });
+      await axios
+        .get(apiEndpoint.logoutEndpoint, {
+          withCredentials: true,
+        })
+        .then(() => location.reload());
     } catch (error) {
       console.log(error);
     }
@@ -81,20 +89,90 @@
       {/if}
     </div>
 
-    {#if isAuthenticated === true}
-      <button class="btn variant-ghost-primary" on:click={logout}>logout</button
-      >
+    {#if user.isAuthenticated === true}
+      <div class="flex items-center">
+        <div
+          class="relative flex items-center border border-transparent w-[200px] gap-2 hover:border-slate-300 hover:rounded cursor-pointer p-1"
+          on:click={handleNavigation}
+          use:clickOutside
+          on:click_outside={() => (isShowNav = false)}
+          on:keydown
+        >
+          <Avatar width={'w-9'} />
+          <span class="font-bold text-sm">{user.username}</span>
+          <span class="font-extralight text-gray-500 ml-auto">
+            <i class="fa-solid fa-chevron-down" />
+          </span>
+          {#if isShowNav === true}
+            <div
+              class="absolute flex flex-col bg-white w-fit right-0 top-[110%] py-3 px-1 border border-slate-300 rounded cursor-default"
+            >
+              <nav class="list-nav text-sm font-medium">
+                <ul>
+                  <li>
+                    <a href="/me">
+                      <span>
+                        <i class="fa-regular fa-circle-user" />
+                      </span>
+                      <span class="flex-auto">Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/createTopic" class="rounded">
+                      <span>
+                        <i class="fa-solid fa-group-arrows-rotate" />
+                      </span>
+                      <span class="flex-auto">Create A Topic</span>
+                    </a>
+                  </li>
+                </ul>
+                <hr class="my-3" />
+                <ul>
+                  <li>
+                    <a href="/me">
+                      <span class="flex-auto ml-8">Privacy Policy</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/me">
+                      <span class="flex-auto ml-8">Content Policy</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/me">
+                      <span class="flex-auto ml-8">User Agreement</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/me">
+                      <span class="flex-auto ml-8"
+                        >Moderator Code of Conduct</span
+                      >
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <hr class="my-3" />
+              <button
+                type="button"
+                class="btn btn-sm font-bold variant-filled-secondary w-full"
+                on:click={logout}>Logout</button
+              >
+            </div>{/if}
+        </div>
+      </div>
+    {:else}
+      <div class="flex items-center">
+        <a href="/auth/register" class="text-gray-700 hover:text-black mr-4"
+          >Sign Up</a
+        >
+        <a
+          href="/auth/login"
+          class="bg-primary-500 hover:bg-primary-600 text-white font-bold btn rounded-full"
+        >
+          Login
+        </a>
+      </div>
     {/if}
-    <div class="flex items-center">
-      <a href="/auth/register" class="text-gray-700 hover:text-black mr-4"
-        >Sign Up</a
-      >
-      <a
-        href="/auth/login"
-        class="bg-primary-500 hover:bg-primary-600 text-white font-bold btn rounded-full"
-      >
-        Login
-      </a>
-    </div>
   </div>
 </header>

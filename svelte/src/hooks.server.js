@@ -5,7 +5,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import axios from 'axios';
 import { apiEndpoint } from './utils/global/apiEndpoint';
 
-const unProtectedRoutes = ['/'];
+const unProtectedRoutes = [];
 
 function redirect(location, body) {
   return new Response(body, {

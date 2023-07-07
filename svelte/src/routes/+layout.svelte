@@ -11,6 +11,7 @@
 
   export let data;
 
+  // need to double-check
   function isPageError(statusCode) {
     const firstDigit = Math.floor(statusCode / 100);
     return firstDigit === 4 || firstDigit === 5;
@@ -20,7 +21,7 @@
 {#if !isPageError($page.status)}
   <AppShell>
     <svelte:fragment slot="header">
-      <Header isAuthenticated={data.user.isAuthenticated} />
+      <Header user={data.user} />
     </svelte:fragment>
     <slot />
   </AppShell>
