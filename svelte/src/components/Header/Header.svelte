@@ -23,7 +23,6 @@
 
   function onShowAutocomplete() {
     searchValue = '';
-    s;
     isShowAutoComplete = !isShowAutoComplete;
   }
 
