@@ -1,5 +1,6 @@
 <script>
-  import { Avatar } from "@skeletonlabs/skeleton";
+  import { Avatar } from '@skeletonlabs/skeleton';
+  import { goto } from '$app/navigation';
 </script>
 
 <section class="bg-zinc-800 h-full">
@@ -25,7 +26,9 @@
             </h1>
           </div>
           <div class="">
-            <button class="flex flex-row gap-2 items-center"
+            <button
+              on:click={() => goto('/')}
+              class="flex flex-row gap-2 items-center"
               ><i class="fa-solid fa-circle-xmark" />
               <span>close</span></button
             >
@@ -176,8 +179,60 @@
             </div>
           </div>
         </div>
-        <div>
-          <div class="card p-4">card right</div>
+        <div class="flex flex-col gap-3">
+          <div
+            class="relative card p-3 border border-slate-300 rounded overflow-hidden"
+          >
+            <div
+              class="absolute z-10 top-0 left-0 right-0 h-[42px] bg-secondary-500"
+            >
+              <div class="flex h-full mx-4 gap-2 flex-row items-center">
+                <span class="text-white">
+                  <i class="fa-solid fa-user-plus" />
+                </span>
+                <p class="text-md font-semibold text-white">User to follow</p>
+              </div>
+            </div>
+            <div class="mt-[42px]">
+              <ul>
+                {#each ['Lorem, ipsum.', 'Lorem, ipsum.', 'Lorem, ipsum.'] as user}
+                  <li
+                    class="flex flex-row items-center justify-between text-xs text-secondary-500"
+                  >
+                    <span class="cursor-default">
+                      u/{user}
+                    </span>
+                    <button class="btn btn-sm">
+                      <i class="fa-solid fa-plus" />
+                    </button>
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          </div>
+          <div
+            class="relative card p-3 border border-slate-300 rounded overflow-hidden"
+          >
+            <div
+              class="absolute z-10 top-0 left-0 right-0 h-[42px] bg-secondary-500"
+            >
+              <div class="flex h-full mx-4 gap-2 flex-row items-center">
+                <span class="text-white">
+                  <i class="fa-solid fa-gavel" />
+                </span>
+                <p class="text-md font-semibold text-white">Rules</p>
+              </div>
+            </div>
+            <div class="mt-[42px]">
+              <ol>
+                {#each [' Lorem ipsum dolor sit amet consectetur adipisicing elit.', 'Lorem, ipsum.', ' Lorem ipsum dolor sit amet consectetur adipisicing elit.'] as rule, i}
+                  <li class="flex flex-row text-sm font-semibold border-b py-2">
+                    {`${i + 1}. `}{rule}
+                  </li>
+                {/each}
+              </ol>
+            </div>
+          </div>
         </div>
       </div>
     </div>
