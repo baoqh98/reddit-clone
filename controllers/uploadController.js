@@ -1,10 +1,12 @@
 const multer = require('multer');
-
+const path = require('path');
 const catchAsync = require('../utils/catchAsync');
+
+console.log(path.resolve('./uploads'));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads/');
+    cb(null, path.resolve('./uploads'));
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -24,4 +26,9 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-module.exports = upload;
+// const resizeImage = catchAsync(async (req, res, next) => {
+//   console.log(req);
+//   next();
+// });
+
+module.exports = { upload };

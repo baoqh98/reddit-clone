@@ -25,8 +25,6 @@ exports.authProtect = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET
   );
 
-  console.log(decodedAccessToken);
-
   if (!decodeToken)
     return next(
       new AppError('You are not logged in! Please log in to get access.', 401)

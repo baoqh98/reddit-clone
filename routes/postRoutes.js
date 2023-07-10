@@ -7,7 +7,7 @@ const {
   createPostWithPhoto,
   createPostWithContent,
 } = require('../controllers/postController');
-const upload = require('../controllers/uploadController');
+const { upload } = require('../controllers/uploadController');
 const { authProtect } = require('../controllers/auth/authMiddlewares');
 
 const router = express.Router();

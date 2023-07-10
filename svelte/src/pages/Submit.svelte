@@ -55,15 +55,18 @@
         );
       } else {
         const formData = new FormData();
-        if (!files) toastSetting.message = 'there is no file';
+        if (!files) throw new AxiosError('There is no file!', '400');
+        if (!post.topic) throw new AxiosError('Please select topic', '400');
+        if (!post.title) throw new AxiosError('Please input the title', '400');
         formData.append('file', files[0]);
+        formData.append('authorId', user.id);
         for (const key in post) {
           formData.append(key, post[key]);
         }
-        res = await axios.post(photoPostEndpoint, formData, {
+        res = await axios.post(apiEndpoint.photoPostEndpoint, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `${getCookie('reddit_clone_jwt')}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         });
       }
@@ -78,7 +81,7 @@
         );
       }
     } catch (error) {
-      if (error.code) {
+      if (error.code.startsWith('4' || '5')) {
         handleToastSetting(error.message);
       } else {
         handleToastSetting(error.response.data.message);

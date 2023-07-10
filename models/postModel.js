@@ -87,14 +87,6 @@ postSchema.pre(/^find/, function (next) {
   next();
 });
 
-postSchema.pre('findOne', function (next) {
-  next();
-});
-
-postSchema.pre('aggregate', function (next) {
-  next();
-});
-
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
