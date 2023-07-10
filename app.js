@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -14,6 +15,8 @@ const commentRoutes = require('./routes/commentRoutes');
 const insertDataRoutes = require('./routes/insertDataRoutes');
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, 'svelte', 'public')));
 

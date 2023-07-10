@@ -25,15 +25,17 @@ exports.authProtect = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET
   );
 
+  console.log(decodedAccessToken);
+
   if (!decodeToken)
     return next(
       new AppError('You are not logged in! Please log in to get access.', 401)
     );
 
   // 3) Check if user still exists
-  const currentUser = await User.findOne({
-    username: decodedAccessToken.payload,
-  });
+  const currentUser = await User.findById(decodedAccessToken.payload);
+
+  console.log(currentUser);
 
   // 4) Check if user changed password after the token was issued
   if (currentUser.changePasswordAfter(decodedAccessToken.iat)) {
@@ -56,7 +58,6 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
         process.env.JWT_SECRET
       );
 
-      console.log(decodedAccessToken);
       // check if user still exist
       const currentUser = await User.findOne(decodedAccessToken);
       if (!currentUser) {

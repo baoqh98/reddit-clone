@@ -1,5 +1,5 @@
 <script>
-  import PostDetail from "../../../pages/PostDetail.svelte";
+  import PostDetail from '../../../pages/PostDetail.svelte';
 </script>
 
 <PostDetail />

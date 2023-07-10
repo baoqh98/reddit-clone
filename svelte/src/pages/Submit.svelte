@@ -6,12 +6,13 @@
   import { apiEndpoint } from '../utils/global/apiEndpoint';
   import { handleToastSetting } from '../utils/DOM/handleToastSetting';
 
+  export let user;
+
   let topics = [];
   let files;
   let nsfw = false;
   let tabSet = 0;
   let post = {
-    author: 'test',
     title: '',
     content: '',
     topic: '',
@@ -30,12 +31,28 @@
 
   async function submitPost() {
     try {
+      if (!user.isAuthenticated)
+        throw new AxiosError(
+          "Can't submit Post because you haven't logged in yet!",
+          '401'
+        );
       let res;
       if (tabSet === 0) {
         if (!post.topic) {
           throw new AxiosError('Please select topic', '400');
         }
-        res = await axios.post(contentPostEndpoint, { ...post });
+        res = await axios.post(
+          apiEndpoint.contentPostEndpoint,
+          {
+            authorId: user.id,
+            ...post,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        );
       } else {
         const formData = new FormData();
         if (!files) toastSetting.message = 'there is no file';
@@ -61,13 +78,8 @@
         );
       }
     } catch (error) {
-      console.log(error);
-      if (error.code === '400') {
+      if (error.code) {
         handleToastSetting(error.message);
-      } else if (!error.response.config.headers.Authorization) {
-        handleToastSetting(
-          "Can't submit Post because you haven't logged in yet!"
-        );
       } else {
         handleToastSetting(error.response.data.message);
       }

@@ -1,7 +1,7 @@
 <script>
   import { Autocomplete, Avatar } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte';
   import axios from 'axios';
+  import { onMount } from 'svelte';
   import { clickOutside } from '../../utils/DOM/clickOutside';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
 

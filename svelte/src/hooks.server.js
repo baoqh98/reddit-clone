@@ -38,6 +38,7 @@ export async function handle({ event, resolve }) {
     if (currentUser.status === 'success') {
       event.locals.user = {
         isAuthenticated: true,
+        accessToken: jwt,
         ...currentUser.data,
       };
     }

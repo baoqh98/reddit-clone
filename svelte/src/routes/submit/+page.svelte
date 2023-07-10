@@ -1,12 +1,13 @@
 <script>
   import Submit from '../../pages/Submit.svelte';
+  export let data;
 </script>
 
 <div class="container max-w-screen-lg py-6">
   <div class="grid grid-cols-3 gap-4">
     <div class="col-span-2">
       <div class="flex flex-col gap-2">
-        <div class="mb-4"><Submit /></div>
+        <div class="mb-4"><Submit user={data.user} /></div>
       </div>
     </div>
     <div>

@@ -58,7 +58,7 @@
         })
       ).data;
       handleToastSetting(
-        `Loggin successfully!`,
+        `Login successfully!`,
         'variant-filled-success',
         undefined,
         (response) => {
