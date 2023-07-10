@@ -8,14 +8,14 @@
 
   let posts = [];
   onMount(async () => {
-    const res = (await axios.get(apiEndpoint.contentPostEndpoint)).data;
+    const res = (await axios.get(apiEndpoint.postEndpoint)).data;
     posts = res.data;
   });
 </script>
 
 {#each posts as post}
   <div
-    on:click={() => goto(`/post/${post._id}_${post.slug}`)}
+    on:click={() => goto(`/post/${post._id}`)}
     on:keydown
     class="card border border-slate-300 hover:border-slate-400 cursor-pointer overflow-hidden"
   >
@@ -72,7 +72,7 @@
             class="flex items-center gap-2 hover:bg-gray-200 p-2 rounded-sm font-bold text-sm text-gray-500"
           >
             <i class="fa-solid fa-message" />
-            <div>15 Comments</div>
+            <div>{post.comments.length} Comments</div>
           </button>
           <button
             class="flex items-center gap-2 hover:bg-gray-200 p-2 rounded-sm font-bold text-sm text-gray-500"

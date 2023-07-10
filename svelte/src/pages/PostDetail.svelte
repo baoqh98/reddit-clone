@@ -1,6 +1,9 @@
 <script>
   import { Avatar } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
+  import moment from 'moment';
+
+  export let post;
 </script>
 
 <section class="bg-zinc-800 h-full">
@@ -17,12 +20,7 @@
           <div class="flex items-center gap-2 w-[80%] mr-auto">
             <span><i class="fa-solid fa-bars" /></span>
             <h1 class="truncate">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Distinctio, consequuntur! Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Officiis corporis laudantium in, earum aliquam
-              neque, maiores assumenda veniam ipsa ipsum amet aliquid explicabo
-              recusandae saepe! Aperiam obcaecati perspiciatis vitae ipsam.
+              {post.title}
             </h1>
           </div>
           <div class="">
@@ -66,22 +64,21 @@
                   <div class="flex flex-row items-center gap-2">
                     <div class="flex flex-row items-center gap-1">
                       <Avatar src="" width="w-6" rounded="rounded-full" />
-                      <div class="text-xs font-semibold">r/topic</div>
+                      <div class="text-xs font-semibold">
+                        r/{post.topic.topic}
+                      </div>
                     </div>
                     <div class="h-4 border-[1px]" />
                     <div class="text-xs font-light text-gray-500">
-                      Posted by u/author 5 hours ago
+                      Posted by u/{post.author.username}
+                      {moment(post.createdAt).fromNow()}
                     </div>
                   </div>
                   <h1 class="text-black font-semibold">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aspernatur, fugit!
+                    {post.title}
                   </h1>
                   <p class="text-[16px]">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quibusdam ipsum expedita veritatis harum fuga eligendi,
-                    accusantium odio est eos molestiae exercitationem architecto
-                    veniam in animi doloribus quia vel! Placeat, quasi?
+                    {post.content}
                   </p>
                 </div>
                 <div class="flex gap-1 mt-2">
@@ -89,7 +86,7 @@
                     class="flex items-center gap-2 hover:bg-gray-200 p-2 rounded-sm font-bold text-sm text-gray-500"
                   >
                     <i class="fa-solid fa-message" />
-                    <div>15 Comments</div>
+                    <div>{post.comments.length} Comments</div>
                   </button>
                   <button
                     class="flex items-center gap-2 hover:bg-gray-200 p-2 rounded-sm font-bold text-sm text-gray-500"

@@ -1,5 +1,7 @@
 <script>
   import PostDetail from '../../../pages/PostDetail.svelte';
+
+  export let data;
 </script>
 
-<PostDetail />
+<PostDetail post={data.post} />

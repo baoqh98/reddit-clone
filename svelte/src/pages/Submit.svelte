@@ -42,7 +42,7 @@
           throw new AxiosError('Please select topic', '400');
         }
         res = await axios.post(
-          apiEndpoint.contentPostEndpoint,
+          apiEndpoint.postEndpoint,
           {
             authorId: user.id,
             ...post,
