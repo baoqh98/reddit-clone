@@ -25,9 +25,7 @@
   "type": "module",
   "format": "prettier --write --plugin-search-dir=. ./**/*.html",
   "dependencies": {
-    "@tiptap/core": "^2.0.3",
-    "@tiptap/pm": "^2.0.3",
-    "@tiptap/starter-kit": "^2.0.3",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "moment": "^2.29.4"
   }
 }

@@ -2,6 +2,7 @@
   import { Avatar } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
   import axios from 'axios';
+  import moment from 'moment';
   import { onMount } from 'svelte';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
 
@@ -51,7 +52,8 @@
             </div>
             <div class="h-4 border-[1px]" />
             <div class="text-xs font-light text-gray-500">
-              Posted by u/{post.author} 5 hours ago
+              Posted by u/{post.author.username}
+              {moment(post.createdAt).fromNow()}
             </div>
           </div>
           <h1 class="text-black font-semibold">

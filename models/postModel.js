@@ -8,6 +8,11 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Post must belong to a user'],
     },
+    topic: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, 'Cannot post without a topic'],
+      ref: 'Topic',
+    },
     postType: {
       type: String,
       enum: ['content', 'media'],
@@ -16,11 +21,6 @@ const postSchema = new mongoose.Schema(
         if (this.mediaLocation) return 'media';
         else return 'content';
       },
-    },
-    topic: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: [true, 'Cannot post without a topic'],
-      ref: 'Topic',
     },
     title: {
       type: String,
@@ -73,10 +73,15 @@ postSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comments',
     select: '_id',
-  }).populate({
-    path: 'topic',
-    select: 'topic',
-  });
+  })
+    .populate({
+      path: 'topic',
+      select: 'topic',
+    })
+    .populate({
+      path: 'author',
+      select: 'username',
+    });
 
   next();
 });
