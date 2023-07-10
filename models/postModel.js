@@ -81,17 +81,17 @@ postSchema.pre(/^find/, function (next) {
     .populate({
       path: 'author',
       select: 'username',
-    });
+    })
+    .sort('-createdAt');
 
   next();
 });
 
 postSchema.pre('findOne', function (next) {
-  // this.populate({
-  //   path: 'author',
-  //   select: 'username',
-  // }).select('-__v');
+  next();
+});
 
+postSchema.pre('aggregate', function (next) {
   next();
 });
 
