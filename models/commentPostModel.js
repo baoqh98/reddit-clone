@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: [true, 'You need log in to Comment this post'],
   },
   post: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +23,15 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+});
+
+commentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'username',
+  });
+
+  next();
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

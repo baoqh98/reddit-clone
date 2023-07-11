@@ -72,7 +72,7 @@ postSchema.pre('save', function (next) {
 postSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comments',
-    select: '_id',
+    select: '_id -post',
   })
     .populate({
       path: 'topic',
@@ -83,6 +83,14 @@ postSchema.pre(/^find/, function (next) {
       select: 'username',
     })
     .sort('-createdAt');
+
+  next();
+});
+
+postSchema.pre('findOne', function (next) {
+  this.populate({
+    path: 'comments',
+  });
 
   next();
 });

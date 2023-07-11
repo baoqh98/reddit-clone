@@ -11,6 +11,12 @@ const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
 const { uploadPostImage } = require('../models/cloudinaryModel');
 
+// specific controller
+exports.getAllPost = getAll(Post);
+exports.getPost = getOne(Post);
+exports.updatePost = updateOne(Post);
+exports.deletePost = deleteOne(Post);
+
 // upload photo
 exports.createPostWithPhoto = catchAsync(async (req, res, next) => {
   const result = await uploadPostImage(req.file.path);
@@ -46,8 +52,4 @@ exports.createPostWithContent = catchAsync(async (req, res, next) => {
   });
 });
 
-// specific controller
-exports.getAllPost = getAll(Post);
-exports.getPost = getOne(Post);
-exports.updatePost = updateOne(Post);
-exports.deletePost = deleteOne(Post);
+exports.getCommentOfPost = catchAsync(async (req, res, next) => {});

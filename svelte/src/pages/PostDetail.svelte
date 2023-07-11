@@ -1,9 +1,13 @@
 <script>
   import { Avatar } from '@skeletonlabs/skeleton';
+  import Comment from '../components/Comment/Comment.svelte';
+  import CreateComment from '../components/Comment/CreateComment.svelte';
   import { goto } from '$app/navigation';
   import moment from 'moment';
 
   export let post;
+
+  const comments = post.comments;
 </script>
 
 <section class="bg-zinc-800 h-full">
@@ -108,75 +112,12 @@
               </div>
             </div>
             <!-- CREATE COMMENT -->
-            <div class="flex flex-col my-2 mx-16">
-              <span class="text-sm"
-                >Comment as <a href="/me" class="text-secondary-500">account</a
-                ></span
-              >
-              <div class="flex flex-col w-full">
-                <label class="label w-full">
-                  <textarea
-                    class="textarea resize-none focus:border-secondary-500 focus-within:border-secondary-500"
-                    rows="4"
-                    placeholder="What are your thoughts?"
-                  />
-                </label>
-                <button
-                  class="btn btn-sm variant-filled-secondary place-self-end"
-                  >Comment</button
-                >
-              </div>
-            </div>
+            <CreateComment />
             <!-- COMMENTS -->
             <div class="my-4 mx-3">
-              <div class="flex flex-row gap-4 mb-4">
-                <div class="relative w-8">
-                  <Avatar
-                    class="w-8"
-                    src="https://styles.redditmedia.com/t5_2jwea9/styles/profileIcon_9l0887gthsr41.png?width=256&height=256&crop=256:256,smart&s=fa8e6574de07e4724b19dfed4779c45f819a6455"
-                  />
-                </div>
-                <div class="relative">
-                  <div class="flex flex-row gap-2">
-                    <span class="text-xs font-semibold">userfirstthings</span>
-                    <hr />
-                    <span class="text-xs font-light text-gray-500"
-                      >createAt 7 hr ago</span
-                    >
-                  </div>
-                  <p class="text-md">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nam, nobis repellendus. Eius illo aliquam, ad voluptatem
-                    nemo, officiis reiciendis quidem minima qui repellendus
-                    cupiditate voluptates atque dolorum sed excepturi
-                    asperiores!
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-row gap-4">
-                <div class="relative w-8">
-                  <Avatar
-                    class="w-8"
-                    src="https://styles.redditmedia.com/t5_2jwea9/styles/profileIcon_9l0887gthsr41.png?width=256&height=256&crop=256:256,smart&s=fa8e6574de07e4724b19dfed4779c45f819a6455"
-                  />
-                </div>
-                <div class="relative">
-                  <div class="flex flex-row gap-2">
-                    <span class="text-xs font-semibold">userfirstthings</span>
-                    <hr />
-                    <span class="text-xs font-light text-gray-500"
-                      >createAt 7 hr ago</span
-                    >
-                  </div>
-                  <p class="text-md">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nam, nobis repellendus. Eius illo aliquam, ad voluptatem
-                    nemo, officiis reiciendis quidem minima qui repellendus
-                    cupiditate voluptates atque dolorum sed excepturi
-                    asperiores!
-                  </p>
-                </div>
-              </div>
+              {#each comments as comment}
+                <Comment {comment} />
+              {/each}
             </div>
           </div>
         </div>
