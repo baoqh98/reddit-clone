@@ -10,8 +10,6 @@
   onMount(async () => {
     const res = (await axios.get(apiEndpoint.postEndpoint)).data;
     posts = res.data;
-
-    console.log(posts);
   });
 </script>
 

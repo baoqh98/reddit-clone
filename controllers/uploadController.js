@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const sharp = require('sharp');
 const catchAsync = require('../utils/catchAsync');
 
 const storage = multer.diskStorage({
@@ -19,14 +20,17 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+exports.upload = multer({
   storage: storage,
   fileFilter: multerFilter,
 });
 
-// const resizeImage = catchAsync(async (req, res, next) => {
-//   console.log(req);
-//   next();
-// });
-
-module.exports = { upload };
+exports.resizeImage = (req, res, next) => {
+  let query = req.body;
+  if (!req.body && !req.file) {
+    res.json({ success: false });
+  } else {
+    sharp(req.file.path).toFormat('jpeg').jpeg({ quality: 90 });
+  }
+  next();
+};
