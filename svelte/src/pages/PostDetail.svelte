@@ -1,15 +1,14 @@
 <script>
-  import { Avatar } from '@skeletonlabs/skeleton';
-  import Comment from '../components/Comment/Comment.svelte';
-  import CreateComment from '../components/Comment/CreateComment.svelte';
   import { goto } from '$app/navigation';
-  import moment from 'moment';
+  import Comment from '../components/Comment/Comment.svelte';
+  import { Avatar } from '@skeletonlabs/skeleton';
+  import CreateComment from '../components/Comment/CreateComment.svelte';
   import UserToFollow from '../components/Follow/UserToFollow.svelte';
   import RuleInPostDetail from '../components/Rules/RuleInPostDetail.svelte';
   import PostInPostDetail from '../components/Post/PostInPostDetail.svelte';
 
-  export let post;
-
+  export let data;
+  const { post, user } = data;
   const comments = post.comments;
 </script>
 
@@ -48,7 +47,7 @@
           <div class="card border border-slate-300 overflow-hidden">
             <PostInPostDetail {post} />
             <!-- CREATE COMMENT -->
-            <CreateComment />
+            <CreateComment {user} />
             <!-- COMMENTS -->
             <div class="my-4 mx-3">
               {#each comments as comment}

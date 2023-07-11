@@ -1,5 +1,5 @@
 <div class="relative card p-3 border border-slate-300 rounded overflow-hidden">
-  <div class="absolute z-10 top-0 left-0 right-0 h-[42px] bg-secondary-500">
+  <div class="absolute top-0 left-0 right-0 h-[42px] bg-secondary-500">
     <div class="flex h-full mx-4 gap-2 flex-row items-center">
       <span class="text-white">
         <i class="fa-solid fa-user-plus" />

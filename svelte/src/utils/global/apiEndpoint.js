@@ -7,4 +7,5 @@ export const apiEndpoint = {
   registerEndpoint: `${baseURL}/auth/register`,
   loginEndpoint: `${baseURL}/auth/login`,
   userEndPoint: `${baseURL}/user`,
+  commentEndpoint: `${baseURL}/comment`,
 };
