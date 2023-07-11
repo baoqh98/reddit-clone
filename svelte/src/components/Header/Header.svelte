@@ -91,7 +91,7 @@
     {#if user.isAuthenticated === true}
       <div class="flex items-center">
         <div
-          class="relative flex items-center border border-transparent w-[200px] gap-2 hover:border-slate-300 hover:rounded cursor-pointer p-1"
+          class="relative z-[1000] flex items-center border border-transparent w-[200px] gap-2 hover:border-slate-300 hover:rounded cursor-pointer p-1"
           on:click={handleNavigation}
           use:clickOutside
           on:click_outside={() => (isShowNav = false)}
@@ -104,7 +104,7 @@
           </span>
           {#if isShowNav === true}
             <div
-              class="absolute flex flex-col bg-white w-fit right-0 top-[110%] py-3 px-1 border border-slate-300 rounded cursor-default"
+              class="absolute z-[999] flex flex-col bg-white w-fit right-0 top-[110%] py-3 px-1 border border-slate-300 rounded cursor-default"
             >
               <nav class="list-nav text-sm font-medium">
                 <ul>
