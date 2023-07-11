@@ -15,9 +15,9 @@
     }
   });
 
-  let username = 'username';
+  let username = '';
   let email = '';
-  let password = 'password123';
+  let password = '';
   let passwordConfirm = '';
 
   async function register() {
@@ -35,7 +35,7 @@
         undefined,
         (response) => {
           if (response.status === 'closed') {
-            window.location = '/';
+            window.location = '/auth/login';
           }
         },
         1000

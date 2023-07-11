@@ -45,11 +45,7 @@
         <div class="flex flex-col gap-2">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-row items-center gap-1">
-              <Avatar
-                src="https://source.unsplash.com/YOErFW8AfkI/128x128"
-                width="w-6"
-                rounded="rounded-full"
-              />
+              <Avatar src="" width="w-6" rounded="rounded-full" />
               <div class="text-xs font-semibold">r/{post.topic.topic}</div>
             </div>
             <div class="h-4 border-[1px]" />
