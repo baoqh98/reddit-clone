@@ -77,9 +77,13 @@
                   <h1 class="text-black font-semibold">
                     {post.title}
                   </h1>
-                  <p class="text-[16px]">
-                    {post.content}
-                  </p>
+                  {#if post.postType === 'content'}
+                    <p class="text-[16px]">
+                      {post.content}
+                    </p>
+                  {:else if post.postType === 'media'}
+                    <img src={post.mediaLocation} alt={post.title} />
+                  {/if}
                 </div>
                 <div class="flex gap-1 mt-2">
                   <button

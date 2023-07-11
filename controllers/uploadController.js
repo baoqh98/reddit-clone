@@ -2,8 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const catchAsync = require('../utils/catchAsync');
 
-console.log(path.resolve('./uploads'));
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve('./uploads'));
