@@ -9,6 +9,7 @@
 
   export let data;
   const { user } = data;
+  // reactive change every time data invoke
   $: post = data.post;
   $: comments = data.post.comments;
 </script>
@@ -51,8 +52,13 @@
             <CreateComment {user} />
             <!-- COMMENTS -->
             <div class="my-4 mx-3">
+              {#if !comments.length}
+                <p class="text-md font-bold text-center mb-10">
+                  There is no comment!
+                </p>
+              {/if}
               {#each comments as comment}
-                <Comment {comment} />
+                <Comment {comment} {user} />
               {/each}
             </div>
           </div>

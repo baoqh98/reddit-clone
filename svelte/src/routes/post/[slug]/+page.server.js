@@ -14,28 +14,27 @@ export async function load({ params }) {
 export const actions = {
   comment: async ({ request, locals, params }) => {
     try {
-      const formData = await request.formData();
-      const text = formData.get('comment');
-      if (!text) return;
-      const user = locals.user;
+      // const formData = await request.formData();
+      // const text = formData.get('comment');
+      // if (!text) return;
+      // const user = locals.user;
 
-      if (!user.isAuthenticated)
-        throw new AxiosError('You are not logged in!', '400');
-      const data = {
-        user: user._id,
-        post: params.slug,
-        text,
-      };
+      // if (!user.isAuthenticated)
+      //   throw new AxiosError('You are not logged in!', '400');
+      // const data = {
+      //   user: user._id,
+      //   post: params.slug,
+      //   text,
+      // };
 
-      const res = await axios.post(apiEndpoint.commentEndpoint, data, {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      });
+      // await axios.post(apiEndpoint.commentEndpoint, data, {
+      //   headers: {
+      //     Authorization: `Bearer ${user.accessToken}`,
+      //   },
+      // });
 
       return {
-        status: 'success',
-        message: 'Create comment successfully!',
+        success: true,
       };
     } catch (error) {
       return error;
