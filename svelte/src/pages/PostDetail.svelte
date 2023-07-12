@@ -8,7 +8,8 @@
   import PostInPostDetail from '../components/Post/PostInPostDetail.svelte';
 
   export let data;
-  const { post, user } = data;
+  const { user } = data;
+  $: post = data.post;
   $: comments = data.post.comments;
 </script>
 

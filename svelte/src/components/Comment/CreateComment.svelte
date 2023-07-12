@@ -1,13 +1,6 @@
 <script>
   import { enhance } from '$app/forms';
-  import { invalidateAll, goto } from '$app/navigation';
   export let user;
-
-  function handleEnhance({ formElement, formData, action, cancel, submitter }) {
-    return async ({ result, update }) => {
-      // update();
-    };
-  }
 </script>
 
 <form method="POST" action="?/comment" use:enhance>
@@ -16,7 +9,8 @@
       {#if user.isAuthenticated}
         Comment as <a href="/me" class="text-secondary-500">{user.username}</a>
       {:else}
-        You need to log in to comment
+        You need to <a class="text-secondary-500" href="/auth/login">log in</a> to
+        comment
       {/if}
     </span>
     <div class="flex flex-col w-full">
