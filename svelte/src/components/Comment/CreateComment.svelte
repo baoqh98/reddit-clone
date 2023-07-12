@@ -40,9 +40,8 @@
         />
       </label>
       <button
-        class={user.isAuthenticated
-          ? `btn btn-sm variant-filled-secondary place-self-end`
-          : `btn btn-sm variant-filled-secondary place-self-end bg-blue-500 text-white font-bold py-2 px-4 opacity-50 pointer-events-none`}
+        disabled={!user.isAuthenticated}
+        class="btn btn-sm variant-filled-secondary place-self-end"
         >Comment</button
       >
     </div>
