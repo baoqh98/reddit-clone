@@ -11,6 +11,10 @@ const { authProtect } = require('../controllers/auth/authMiddlewares');
 const router = express.Router();
 
 router.route('/').get(getAllComment).post(authProtect, createComment);
-router.route('/:id').get(getComment).patch(updateComment).delete(deleteComment);
+router
+  .route('/:id')
+  .get(getComment)
+  .patch(authProtect, updateComment)
+  .delete(authProtect, deleteComment);
 
 module.exports = router;

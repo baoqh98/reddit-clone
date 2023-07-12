@@ -1,9 +1,33 @@
 <script>
-  import { Avatar } from '@skeletonlabs/skeleton';
+  /** @type {import('./$types').ActionData} */
+  import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
+  import { Avatar, dataTableHandler } from '@skeletonlabs/skeleton';
+  import { enhance } from '$app/forms';
   import moment from 'moment';
 
+  let isEditing = false;
+  let isLoading = false;
+
   export let comment;
-  // export let user;
+  export let user;
+
+  async function handleEnhance() {
+    isLoading = true;
+    return async ({ result, update }) => {
+      if (result.type === 'success' && result.data.delete) {
+        handleToastSetting('Deleted your comment!', 'bg-error-600');
+        update();
+      } else if (result.type === 'success' && result.data.edit) {
+        update();
+        handleToastSetting('Edited your comment!', 'bg-tertiary-600');
+        isEditing = false;
+      } else if (result.type === 'error') {
+        handleToastSetting();
+        update();
+      }
+      isLoading = false;
+    };
+  }
 </script>
 
 <div class="flex flex-row gap-4 mb-6">
@@ -13,16 +37,60 @@
       src="https://styles.redditmedia.com/t5_2jwea9/styles/profileIcon_9l0887gthsr41.png?width=256&height=256&crop=256:256,smart&s=fa8e6574de07e4724b19dfed4779c45f819a6455"
     />
   </div>
-  <div class="relative">
-    <div class="flex flex-row gap-2">
+  <div class="w-full">
+    <div class="flex flex-row items-center gap-2">
       <span class="text-xs font-semibold">{comment.user.username}</span>
       <hr />
       <span class="text-xs font-light text-gray-500"
         >createAt {moment(comment.createdAt).fromNow()}</span
       >
     </div>
-    <p class="text-sm">
-      {comment.text}
-    </p>
+    {#if isEditing === true && comment.user._id === user._id}
+      <form action="?/editComment" method="POST" use:enhance={handleEnhance}>
+        <input type="hidden" name="id" hidden value={comment._id} />
+        <label class="label flex flex-col items-center justify-between mr-16">
+          <textarea
+            disabled={isLoading}
+            name="commentToEdit"
+            class="textarea text-sm resize-none focus:border-secondary-500 focus-within:border-secondary-500"
+            rows="3"
+            value={comment.text}
+          />
+          <button
+            disabled={isLoading}
+            class="btn btn-sm variant-filled-secondary place-self-end"
+            >Submit</button
+          >
+        </label>
+      </form>
+    {:else}
+      <p class="text-sm">
+        {comment.text}
+      </p>
+    {/if}
+
+    <div class="flex gap-2 mt-2">
+      {#if comment.user._id === user._id}
+        <button
+          type="button"
+          on:click={() => (isEditing = true)}
+          class="flex items-center gap-2 hover:bg-gray-200 rounded-sm font-bold text-xs text-gray-500 p-1"
+          ><i class="fa-solid fa-pen" />
+          <span>Edit</span></button
+        >
+        <form
+          action="?/deleteComment"
+          method="POST"
+          use:enhance={handleEnhance}
+        >
+          <input type="hidden" name="id" hidden value={comment._id} />
+          <button
+            class="flex items-center gap-2 hover:bg-gray-200 rounded-sm font-bold text-xs text-gray-500 p-1"
+            ><i class="fa-regular fa-trash-can" />
+            <span>Delete</span></button
+          >
+        </form>
+      {/if}
+    </div>
   </div>
 </div>
