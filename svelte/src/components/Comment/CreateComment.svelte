@@ -1,6 +1,13 @@
 <script>
   import { enhance } from '$app/forms';
+  import { invalidateAll, goto } from '$app/navigation';
   export let user;
+
+  function handleEnhance({ formElement, formData, action, cancel, submitter }) {
+    return async ({ result, update }) => {
+      // update();
+    };
+  }
 </script>
 
 <form method="POST" action="?/comment" use:enhance>

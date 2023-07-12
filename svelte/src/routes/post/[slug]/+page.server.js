@@ -16,6 +16,7 @@ export const actions = {
     try {
       const formData = await request.formData();
       const text = formData.get('comment');
+      if (!text) return;
       const user = locals.user;
 
       if (!user.isAuthenticated)

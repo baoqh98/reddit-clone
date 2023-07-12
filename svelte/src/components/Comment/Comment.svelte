@@ -3,6 +3,7 @@
   import moment from 'moment';
 
   export let comment;
+  // export let user;
 </script>
 
 <div class="flex flex-row gap-4 mb-6">

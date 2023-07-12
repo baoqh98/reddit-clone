@@ -1,7 +1,7 @@
 <script>
   import { goto } from '$app/navigation';
+
   import Comment from '../components/Comment/Comment.svelte';
-  import { Avatar } from '@skeletonlabs/skeleton';
   import CreateComment from '../components/Comment/CreateComment.svelte';
   import UserToFollow from '../components/Follow/UserToFollow.svelte';
   import RuleInPostDetail from '../components/Rules/RuleInPostDetail.svelte';
@@ -9,7 +9,7 @@
 
   export let data;
   const { post, user } = data;
-  const comments = post.comments;
+  $: comments = data.post.comments;
 </script>
 
 <section class="bg-zinc-800 h-full">
