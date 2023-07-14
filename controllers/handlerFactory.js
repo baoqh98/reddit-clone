@@ -19,7 +19,7 @@ exports.updateOne = (Model) =>
     });
 
     if (!doc) {
-      return AppError(new AppError('Can not find document', 404));
+      return next(new AppError('Can not find document', 404));
     }
 
     res.status(201).json({

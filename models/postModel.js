@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const VotePost = require('./votePostModel');
 
 const postSchema = new mongoose.Schema(
   {
@@ -40,7 +41,6 @@ const postSchema = new mongoose.Schema(
         else return true;
       },
     },
-    vote: { type: Number, default: 0 },
     nsfw: {
       type: Boolean,
       default: false,
@@ -63,9 +63,18 @@ postSchema.virtual('comments', {
   foreignField: 'post',
   localField: '_id',
 });
+postSchema.virtual('vote', {
+  ref: 'VotePost',
+  foreignField: 'post',
+  localField: '_id',
+  justOne: true,
+});
 
-postSchema.pre('save', function (next) {
+postSchema.pre('save', async function (next) {
   this.slug = slugify(this.title, { lower: true });
+  if (this.isNew) {
+    await VotePost.create({ post: this._id });
+  }
   next();
 });
 
@@ -82,6 +91,10 @@ postSchema.pre(/^find/, function (next) {
       path: 'author',
       select: 'username',
     })
+    .populate({
+      path: 'vote',
+      select: '-post -_id voteScore',
+    })
     .sort('-createdAt');
 
   next();
@@ -90,6 +103,9 @@ postSchema.pre(/^find/, function (next) {
 postSchema.pre('findOne', function (next) {
   this.populate({
     path: 'comments',
+  }).populate({
+    path: 'vote',
+    select: '-post -_id voteScore',
   });
 
   next();

@@ -16,6 +16,10 @@ router.route('/').get(getAllPost).post(authProtect, createPostWithContent);
 router
   .route('/mediaPost')
   .post(authProtect, upload.single('file'), resizeImage, createPostWithPhoto);
-router.route('/:id').get(getPost).patch(updatePost).delete(deletePost);
+router
+  .route('/:id')
+  .get(getPost)
+  .patch(authProtect, updatePost)
+  .delete(authProtect, deletePost);
 
 module.exports = router;

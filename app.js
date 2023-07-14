@@ -11,8 +11,7 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const commentRoutes = require('./routes/commentRoutes');
-
-const insertDataRoutes = require('./routes/insertDataRoutes');
+const voteRoutes = require('./routes/voteRoutes');
 
 const app = express();
 
@@ -39,7 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/topic', topicRoutes);
 app.use('/api/comment', commentRoutes);
-app.use('/api/insertData', insertDataRoutes);
+app.use('/api/vote', voteRoutes);
 
 app.use(globalErrorHandler);
 
