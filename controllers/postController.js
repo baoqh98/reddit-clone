@@ -38,6 +38,7 @@ exports.createPostWithPhoto = catchAsync(async (req, res, next) => {
 });
 
 exports.createPostWithContent = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const post = await Post.create({
     author: new mongoose.Types.ObjectId(req.body.authorId),
     topic: new mongoose.Types.ObjectId(req.body.topic),

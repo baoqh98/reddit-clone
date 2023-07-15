@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const VotePost = require('./votePostModel');
+const Comment = require('./commentPostModel');
 
 const postSchema = new mongoose.Schema(
   {
@@ -108,6 +109,13 @@ postSchema.pre('findOne', function (next) {
     select: '-post -_id voteScore',
   });
 
+  next();
+});
+
+postSchema.pre('findOneAndDelete', async function (next) {
+  const postId = new mongoose.Types.ObjectId(this.getFilter()._id);
+  await VotePost.findOneAndDelete({ post: postId });
+  await Comment.findOneAndDelete({ post: postId });
   next();
 });
 

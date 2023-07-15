@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const AppError = require('../utils/AppError');
 
 const votePostSchema = new mongoose.Schema({
   post: {
@@ -27,8 +26,6 @@ votePostSchema.post('findOneAndUpdate', async function (doc, next) {
   await doc.save();
   next();
 });
-
-votePostSchema.pre('save', async function (next) {});
 
 const VotePost = mongoose.model('VotePost', votePostSchema);
 

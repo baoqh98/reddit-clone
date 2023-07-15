@@ -20,6 +20,6 @@ router
   .route('/:id')
   .get(getPost)
   .patch(authProtect, updatePost)
-  .delete(authProtect, deletePost);
+  .delete(deletePost);
 
 module.exports = router;
