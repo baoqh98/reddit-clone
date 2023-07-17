@@ -5,10 +5,12 @@
   import CreatePost from '../components/Post/CreatePost.svelte';
   import Footer from '../components/Topic/Footer.svelte';
 
+  export let data;
+  const { posts } = data;
+
   function handleModal() {
     const modal = {
       type: 'alert',
-      // Data
       title: 'Example Alert',
       body: 'This is an example modal.',
     };
@@ -26,7 +28,7 @@
           <CreatePost />
         </div>
         <div class="flex flex-col gap-3">
-          <Post />
+          <Post {posts} />
         </div>
       </div>
     </div>

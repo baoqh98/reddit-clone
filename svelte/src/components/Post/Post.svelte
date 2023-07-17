@@ -1,16 +1,10 @@
 <script>
+  /** @type {import('./$types').PageLoad} */
   import { Avatar } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
-  import axios from 'axios';
   import moment from 'moment';
-  import { onMount } from 'svelte';
-  import { apiEndpoint } from '../../utils/global/apiEndpoint';
 
-  let posts = [];
-  onMount(async () => {
-    const res = (await axios.get(apiEndpoint.postEndpoint)).data;
-    posts = res.data;
-  });
+  export let posts;
 </script>
 
 {#each posts as post}
