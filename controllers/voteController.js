@@ -14,7 +14,7 @@ exports.upvote = catchAsync(async (req, res, next) => {
   });
 
   let newVotePost;
-  if (votePost.upVoter.includes(userObjectId)) {
+  if (votePost && votePost.upVoter.some((item) => item.id === req.body.user)) {
     newVotePost = await VotePost.findOneAndUpdate(
       { post },
       {
@@ -22,7 +22,10 @@ exports.upvote = catchAsync(async (req, res, next) => {
       },
       { new: true }
     );
-  } else if (votePost.downVoter.includes(userObjectId)) {
+  } else if (
+    votePost &&
+    votePost.downVoter.some((item) => item.id === req.body.user)
+  ) {
     newVotePost = await VotePost.findOneAndUpdate(
       { post },
       {
@@ -37,7 +40,7 @@ exports.upvote = catchAsync(async (req, res, next) => {
       {
         $push: { upVoter: userObjectId },
       },
-      { new: true }
+      { upsert: true, new: true }
     );
   }
 
@@ -56,7 +59,10 @@ exports.downvote = catchAsync(async (req, res, next) => {
   });
 
   let newVotePost;
-  if (votePost.downVoter.includes(userObjectId)) {
+  if (
+    votePost &&
+    votePost.downVoter.some((item) => item.id === req.body.user)
+  ) {
     newVotePost = await VotePost.findOneAndUpdate(
       { post },
       {
@@ -64,7 +70,10 @@ exports.downvote = catchAsync(async (req, res, next) => {
       },
       { new: true }
     );
-  } else if (votePost.upVoter.includes(userObjectId)) {
+  } else if (
+    votePost &&
+    votePost.upVoter.some((item) => item.id === req.body.user)
+  ) {
     newVotePost = await VotePost.findOneAndUpdate(
       { post },
       {

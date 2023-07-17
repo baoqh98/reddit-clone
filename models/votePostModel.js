@@ -18,6 +18,22 @@ const votePostSchema = new mongoose.Schema({
   },
 });
 
+votePostSchema.pre('find', function (next) {
+  this.populate('upVoter', 'username').populate('downVoter', 'username');
+  next();
+});
+
+votePostSchema.pre('findOne', function (next) {
+  this.populate({
+    path: 'upVoter',
+    select: 'username',
+  }).populate({
+    path: 'downVoter',
+    select: 'username',
+  });
+  next();
+});
+
 votePostSchema.post('findOneAndUpdate', async function (doc, next) {
   const upVoterScore = doc.upVoter.length;
   const downVoterScore = doc.downVoter.length;

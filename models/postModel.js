@@ -73,16 +73,13 @@ postSchema.virtual('vote', {
 
 postSchema.pre('save', async function (next) {
   this.slug = slugify(this.title, { lower: true });
-  if (this.isNew) {
-    await VotePost.create({ post: this._id });
-  }
   next();
 });
 
-postSchema.pre(/^find/, function (next) {
+postSchema.pre('find', function (next) {
   this.populate({
     path: 'comments',
-    select: '_id -post',
+    select: '_id user -post',
   })
     .populate({
       path: 'topic',
@@ -94,7 +91,7 @@ postSchema.pre(/^find/, function (next) {
     })
     .populate({
       path: 'vote',
-      select: '-post -_id voteScore',
+      select: 'voteScore -post -_id',
     })
     .sort('-createdAt');
 
@@ -106,7 +103,6 @@ postSchema.pre('findOne', function (next) {
     path: 'comments',
   }).populate({
     path: 'vote',
-    select: '-post -_id voteScore',
   });
 
   next();
