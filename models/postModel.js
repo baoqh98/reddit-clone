@@ -99,11 +99,7 @@ postSchema.pre('find', function (next) {
 });
 
 postSchema.pre('findOne', function (next) {
-  this.populate({
-    path: 'comments',
-  }).populate({
-    path: 'vote',
-  });
+  this.populate('comments').populate('topic').populate('vote');
 
   next();
 });

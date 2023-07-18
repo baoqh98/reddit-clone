@@ -8,4 +8,5 @@ export const apiEndpoint = {
   loginEndpoint: `${baseURL}/auth/login`,
   userEndPoint: `${baseURL}/user`,
   commentEndpoint: `${baseURL}/comment`,
+  voteEndpoint: `${baseURL}/vote`,
 };

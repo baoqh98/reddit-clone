@@ -6,7 +6,7 @@
   import Footer from '../components/Topic/Footer.svelte';
 
   export let data;
-  const { posts } = data;
+  const { posts, user } = data;
 
   function handleModal() {
     const modal = {
@@ -28,7 +28,7 @@
           <CreatePost />
         </div>
         <div class="flex flex-col gap-3">
-          <Post {posts} />
+          <Post {posts} {user} />
         </div>
       </div>
     </div>

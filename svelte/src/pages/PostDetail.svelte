@@ -1,6 +1,5 @@
 <script>
   import { goto } from '$app/navigation';
-
   import Comment from '../components/Comment/Comment.svelte';
   import CreateComment from '../components/Comment/CreateComment.svelte';
   import UserToFollow from '../components/Follow/UserToFollow.svelte';
@@ -47,7 +46,7 @@
       <div class="grid grid-cols-3 gap-4">
         <div class="col-span-2">
           <div class="card border border-slate-300 overflow-hidden">
-            <PostInPostDetail {post} />
+            <PostInPostDetail {post} {user} />
             <!-- CREATE COMMENT -->
             <CreateComment {user} />
             <!-- COMMENTS -->

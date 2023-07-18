@@ -3,12 +3,12 @@ const {
   getAllVote,
   upvote,
   downvote,
-  resetVote,
 } = require('../controllers/voteController');
+const { authProtect } = require('../controllers/auth/authMiddlewares');
 
 const router = express.Router();
 
 router.route('/').get(getAllVote);
-router.route('/upvote').patch(upvote);
-router.route('/downvote').patch(downvote);
+router.route('/upvote').patch(authProtect, upvote);
+router.route('/downvote').patch(authProtect, downvote);
 module.exports = router;

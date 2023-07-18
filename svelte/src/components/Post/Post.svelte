@@ -1,40 +1,81 @@
 <script>
   /** @type {import('./$types').PageLoad} */
-  import { Avatar } from '@skeletonlabs/skeleton';
+  import { Avatar, Toast } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
   import moment from 'moment';
+  import axios from 'axios';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
+  import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
+  import { vote, isVoted } from '$lib/votingHandler';
 
   export let posts;
+  export let user;
+
+  const upvote = async (postId) => {
+    try {
+      await vote(`${apiEndpoint.voteEndpoint}/upvote`, 'UPVOTE', user, postId);
+      const postsData = (await axios.get(apiEndpoint.postEndpoint)).data;
+      posts = postsData.data;
+    } catch (error) {
+      handleToastSetting(error.message);
+    }
+  };
+  const downvote = async (postId) => {
+    try {
+      await vote(
+        `${apiEndpoint.voteEndpoint}/downvote`,
+        'DOWNVOTE',
+        user,
+        postId
+      );
+      const postsData = (await axios.get(apiEndpoint.postEndpoint)).data;
+      posts = postsData.data;
+    } catch (error) {
+      handleToastSetting(error.message);
+    }
+  };
 </script>
+
+<Toast />
 
 {#each posts as post}
   <div
-    on:click={() => goto(`/post/${post._id}`)}
-    on:keydown
-    class="card border border-slate-300 hover:border-slate-400 cursor-pointer overflow-hidden"
+    class="card border border-slate-300 hover:border-slate-400 overflow-hidden"
   >
     <div class="grid grid-cols-12 gap-1">
       <div class="col-span-1 bg-slate-100 p-2">
         <div class="flex flex-col gap-2 items-center leading-4">
           <button
+            on:click={() => upvote(post.id)}
             class="text-[28px] text-slate-400 hover:text-primary-500 hover:bg-slate-200 h-6 w-6"
           >
             <i
-              class="fa-solid fa-caret-up rounded-sm active:-translate-y-1 ease-in-out duration-75"
+              class={`fa-solid fa-caret-up rounded-sm active:-translate-y-1 ease-in-out duration-75 ${
+                isVoted(post, user, 'UPVOTE') && 'text-primary-500'
+              }`}
             />
           </button>
-          <div class="font-semibold text-sm">0</div>
+          <div class="font-semibold text-sm">
+            {!post.vote ? 0 : post.vote.voteScore}
+          </div>
           <button
+            on:click={() => downvote(post.id)}
             class="text-[28px] text-slate-400 hover:text-secondary-500 hover:bg-slate-200 h-6 w-6"
           >
             <i
-              class="fa-solid fa-caret-down rounded-sm active:translate-y-1 ease-in-out duration-75"
+              class={`fa-solid fa-caret-down rounded-sm active:translate-y-1 ease-in-out duration-75 ${
+                isVoted(post, user, 'DOWNVOTE') && 'text-secondary-500'
+              }`}
             />
           </button>
         </div>
       </div>
       <div class="col-span-11 px-2 py-3">
-        <div class="flex flex-col gap-2">
+        <div
+          on:click={() => goto(`/post/${post.id}`)}
+          on:keydown
+          class="flex flex-col gap-2 cursor-pointer"
+        >
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-row items-center gap-1">
               <Avatar src="" width="w-6" rounded="rounded-full" />
