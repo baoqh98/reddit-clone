@@ -1,5 +1,5 @@
 <script>
-  import Submit from '../../pages/Submit.svelte';
+  import Submit from '../../components/Submit/Submit.svelte';
   export let data;
 </script>
 
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div>
-      <!-- submit guildline -->
+      <!-- submit guideline -->
       <div class="card p-4 border border-slate-300 rounded">
         <div>
           <p

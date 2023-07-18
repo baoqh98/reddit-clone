@@ -3,8 +3,8 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import axios, { AxiosError } from 'axios';
-  import { apiEndpoint } from '../utils/global/apiEndpoint';
-  import { handleToastSetting } from '../utils/DOM/handleToastSetting';
+  import { apiEndpoint } from '../../utils/global/apiEndpoint';
+  import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
 
   export let user;
 
