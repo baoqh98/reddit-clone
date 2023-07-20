@@ -1,5 +1,5 @@
 <script>
-  import MyPost from '../../components/Me/MyPost.svelte';
+  import MyPost from '../../components/Me/MyPostList.svelte';
   import UserInfo from '../../components/Me/UserInfo.svelte';
 
   export let data;
