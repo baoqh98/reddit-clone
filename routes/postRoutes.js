@@ -6,6 +6,7 @@ const {
   deletePost,
   createPostWithPhoto,
   createPostWithContent,
+  getPostByUser,
 } = require('../controllers/postController');
 const { upload, resizeImage } = require('../controllers/uploadController');
 const { authProtect } = require('../controllers/auth/authMiddlewares');
@@ -21,5 +22,6 @@ router
   .get(getPost)
   .patch(authProtect, updatePost)
   .delete(deletePost);
+router.route('/postByUser/:username').get(getPostByUser);
 
 module.exports = router;

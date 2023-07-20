@@ -109,7 +109,7 @@
               <nav class="list-nav text-sm font-medium">
                 <ul>
                   <li>
-                    <a href="/me">
+                    <a href={`/user/${user.username}`}>
                       <span>
                         <i class="fa-regular fa-circle-user" />
                       </span>
@@ -128,22 +128,22 @@
                 <hr class="my-3" />
                 <ul>
                   <li>
-                    <a href="/me">
+                    <a href="#">
                       <span class="flex-auto ml-8">Privacy Policy</span>
                     </a>
                   </li>
                   <li>
-                    <a href="/me">
+                    <a href="#">
                       <span class="flex-auto ml-8">Content Policy</span>
                     </a>
                   </li>
                   <li>
-                    <a href="/me">
+                    <a href="#">
                       <span class="flex-auto ml-8">User Agreement</span>
                     </a>
                   </li>
                   <li>
-                    <a href="/me">
+                    <a href="#">
                       <span class="flex-auto ml-8"
                         >Moderator Code of Conduct</span
                       >
