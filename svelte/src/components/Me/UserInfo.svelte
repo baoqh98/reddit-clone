@@ -1,5 +1,6 @@
 <script>
   import { Avatar } from '@skeletonlabs/skeleton';
+  export let user;
 </script>
 
 <div class="relative card p-3 border border-slate-300 rounded overflow-hidden">
@@ -19,6 +20,22 @@
       class="btn btn-sm bg-gradient-to-r from-red-700 via-primary-500 to-error-500 text-white font-medium"
       >Buy a thing</button
     >
+    <div class="flex flex-row mb-2">
+      <div class="flex flex-col flex-1">
+        <span class="text-md font-semibold">Post</span>
+        <span class="text-sm"
+          ><i class="fa-solid fa-clipboard text-blue-500" />
+          <span class="ml-1 text-gray-500 font-normal">{user.age}</span>
+        </span>
+      </div>
+      <div class="flex flex-col flex-1">
+        <span class="text-md font-semibold">CakeDay</span>
+        <span class="text-sm"
+          ><i class="fa-solid fa-cake-candles text-blue-500" />
+          <span class="ml-1 text-gray-500 font-normal">{user.dateOfBirth}</span>
+        </span>
+      </div>
+    </div>
     <button
       class="btn btn-sm bg-gradient-to-r from-blue-700 via-secondary-500 to-blue-400 text-white font-medium"
       >New Post</button

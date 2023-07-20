@@ -1,5 +1,9 @@
 <script>
+  import MyPost from '../../components/Me/MyPost.svelte';
   import UserInfo from '../../components/Me/UserInfo.svelte';
+
+  export let data;
+  const { user } = data;
 
   let header = [
     'OVERVIEW',
@@ -33,9 +37,11 @@
   </div>
   <div class="container max-w-5xl py-6">
     <div class="grid grid-cols-3 gap-4">
-      <div class="col-span-2">thing 2</div>
+      <div class="col-span-2">
+        <MyPost />
+      </div>
       <div class="col-span-1">
-        <UserInfo />
+        <UserInfo {user} />
       </div>
     </div>
   </div>
