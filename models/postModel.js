@@ -77,9 +77,13 @@ postSchema.pre('save', async function (next) {
 });
 
 postSchema.pre('find', function (next) {
+  const isDisableMiddlewares = this.options.disableMiddlewares;
+  console.log(isDisableMiddlewares);
   this.populate({
     path: 'comments',
-    select: '_id user -post',
+    select: `${
+      isDisableMiddlewares ? '_id user text -post' : '_id user -post'
+    }`,
   })
     .populate({
       path: 'topic',
@@ -99,8 +103,7 @@ postSchema.pre('find', function (next) {
 });
 
 postSchema.pre('findOne', function (next) {
-  this.populate('comments').populate('topic').populate('vote');
-
+  this.populate({ path: 'comments' }).populate('topic').populate('vote');
   next();
 });
 

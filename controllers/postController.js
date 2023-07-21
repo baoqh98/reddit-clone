@@ -57,14 +57,16 @@ exports.createPostWithContent = catchAsync(async (req, res, next) => {
 exports.getPostByUser = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ username: req.params.username });
   if (!user) return next(new AppError('Something Wrong!', 404));
-  const postByUser = await Post.find({
-    author: new mongoose.Types.ObjectId(user.id),
-  });
+  const postByUser = await Post.find(
+    {
+      author: new mongoose.Types.ObjectId(user.id),
+    },
+    null,
+    { disableMiddlewares: true }
+  );
 
   res.status(200).json({
     status: 'success',
     data: postByUser,
   });
 });
-
-exports.getCommentOfPost = catchAsync(async (req, res, next) => {});
