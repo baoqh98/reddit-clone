@@ -1,11 +1,12 @@
 <script>
   import { Avatar } from '@skeletonlabs/skeleton';
+  import { goto } from '$app/navigation';
 
   export let post;
   export let moment;
 </script>
 
-<div class=" rounded rounded-b-none border hover:border-gray-500">
+<div class="rounded rounded-b-none border hover:border-gray-500">
   <div class="grid grid-cols-12 gap-1">
     <div class="col-span-1 p-2">
       <div class="flex flex-col gap-2 items-center leading-4">
@@ -13,7 +14,7 @@
           class="text-[28px] text-slate-400 hover:text-primary-500 hover:bg-slate-200 h-6 w-6"
         >
           <i
-            class={`fa-solid fa-caret-up rounded-sm active:-translate-y-1 ease-in-out duration-75 ${'text-primary-500'}`}
+            class={`fa-solid fa-caret-up rounded-sm active:-translate-y-1 ease-in-out duration-75`}
           />
         </button>
         <div class="font-semibold text-sm">
@@ -23,21 +24,27 @@
           class="text-[28px] text-slate-400 hover:text-secondary-500 hover:bg-slate-200 h-6 w-6"
         >
           <i
-            class={`fa-solid fa-caret-down rounded-sm active:translate-y-1 ease-in-out duration-75 ${'text-secondary-500'}`}
+            class={`fa-solid fa-caret-down rounded-sm active:translate-y-1 ease-in-out duration-75`}
           />
         </button>
       </div>
     </div>
     <div class="col-span-11 px-2 py-3">
-      <div on:keydown class="flex flex-col gap-2 cursor-pointer">
+      <div
+        class="flex flex-col gap-2 cursor-pointer"
+        on:click={() => goto(`/post/${post.id}`)}
+        on:keydown
+      >
         <div class="flex flex-row items-center gap-2">
           <div class="flex flex-row items-center gap-1">
             <Avatar src="" width="w-6" rounded="rounded-full" />
-            <div class="text-xs font-semibold">u/{post.author.username}</div>
+            <div class="text-xs font-semibold">
+              u/{post.author.username}
+            </div>
           </div>
           <div class="h-4 border-[1px]" />
           <div class="text-xs font-light text-gray-500">
-            Posted by u/{post.author.username}
+            posted by u/{post.author.username}
             {moment(post.createdAt).fromNow()}
           </div>
         </div>
@@ -54,6 +61,8 @@
       </div>
       <div class="flex gap-1 mt-2">
         <button
+          on:click={() => goto(`/post/${post.id}`)}
+          on:keydown
           class="flex items-center gap-2 hover:bg-gray-200 p-2 rounded-sm font-bold text-sm text-gray-500"
         >
           <i class="fa-solid fa-message" />

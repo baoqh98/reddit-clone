@@ -2,23 +2,16 @@
   import moment from 'moment';
   import MyPost from './MyPost.svelte';
   import MyPostComment from './MyPostComment.svelte';
-
-  let post = {
-    vote: {
-      voteScore: 3,
-    },
-    topic: { topic: 'Music' },
-    author: {
-      username: 'username',
-    },
-    comments: [],
-    createdAt: Date.now(),
-  };
+  export let postByUser;
 </script>
 
-<div class="card rounded">
-  <!-- POST -->
-  <MyPost {post} {moment} />
-  <!-- COMMENT -->
-  <MyPostComment {post} {moment} />
-</div>
+{#each postByUser as post}
+  <div class="card rounded mb-4">
+    <!-- POST -->
+    <MyPost {post} {moment} />
+    <!-- COMMENT -->
+    {#each post.comments as comment}
+      <MyPostComment {comment} {moment} />
+    {/each}
+  </div>
+{/each}
