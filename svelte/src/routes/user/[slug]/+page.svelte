@@ -5,7 +5,7 @@
   import UserInfo from '../../../components/User/UserInfo.svelte';
 
   export let data;
-  const { user, postByUser } = data;
+  const { postByUser, userFromParams } = data;
 
   let header = [
     'OVERVIEW',
@@ -43,7 +43,7 @@
         <MyPostList {postByUser} />
       </div>
       <div class="col-span-1">
-        <UserInfo {user} />
+        <UserInfo {userFromParams} postNumber={postByUser.length} />
       </div>
     </div>
   </div>

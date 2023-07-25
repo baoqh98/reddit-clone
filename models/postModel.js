@@ -78,7 +78,6 @@ postSchema.pre('save', async function (next) {
 
 postSchema.pre('find', function (next) {
   const isDisableMiddlewares = this.options.disableMiddlewares;
-  console.log(isDisableMiddlewares);
   this.populate({
     path: 'comments',
     select: `${

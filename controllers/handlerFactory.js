@@ -43,7 +43,6 @@ exports.createOne = (Model) =>
 exports.getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);
-
     if (!doc) {
       return next(new AppError('There is no document', 404));
     }
@@ -56,7 +55,9 @@ exports.getOne = (Model) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const docs = await Model.find();
+    let queryFilter;
+    if (req.query) queryFilter = req.query;
+    const docs = await Model.find({ ...queryFilter });
 
     // SEND RESPONSE
     res.status(200).json({

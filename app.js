@@ -25,7 +25,7 @@ app.use(
     credentials: true,
   })
 );
-app.options('*', cors());
+// app.options('*', cors());
 
 // body parser
 app.use(express.json());

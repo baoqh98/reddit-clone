@@ -39,8 +39,10 @@
   </div>
   <div class="w-full">
     <div class="flex flex-row items-center gap-2">
-      <span class="text-xs font-semibold">{comment.user.username}</span>
-      <hr />
+      <a href={`/user/${comment.user.username}`} class="text-xs font-semibold"
+        >{comment.user.username}</a
+      >
+      <span class="divider-vertical border-l border-gray-300 mx-0" />
       <span class="text-xs font-light text-gray-500"
         >createAt {moment(comment.createdAt).fromNow()}</span
       >
