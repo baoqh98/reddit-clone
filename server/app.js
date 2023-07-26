@@ -14,17 +14,30 @@ const commentRoutes = require('./routes/commentRoutes');
 const voteRoutes = require('./routes/voteRoutes');
 
 const app = express();
+const originWhitelist = [
+  'http://127.0.0.1:3000',
+  'http://localhost:5173',
+  'https://reddit-clone-bqh.vercel.app',
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
 
 app.use(morgan('dev'));
 
-app.use(express.static(path.join(__dirname, 'svelte', 'public')));
+// app.use(express.static(path.join(__dirname, 'svelte', 'public')));
+// app.options('*', cors());
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173/',
-      'https://reddit-clone-three-blush.vercel.app/',
-    ],
+    origin: true,
     credentials: true,
   })
 );
