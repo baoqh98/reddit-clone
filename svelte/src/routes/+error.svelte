@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation';
 </script>
 
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-white dark:bg-gray-900 absolute top-0 left-0 right-0">
   <div class="container flex items-center min-h-screen px-6 py-12 mx-auto">
     <div class="flex flex-col items-center max-w-sm mx-auto text-center">
       <p
@@ -51,7 +51,7 @@
             />
           </svg>
 
-          <span on:keydown on:click={() => goto(-1)}>Go back</span>
+          <span on:keydown on:click={() => goto(history.back())}>Go back</span>
         </button>
 
         <button

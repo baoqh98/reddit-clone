@@ -8,21 +8,12 @@
   import '../app.postcss';
   import { AppShell } from '@skeletonlabs/skeleton';
   import Header from '../components/Header/Header.svelte';
-
   export let data;
-
-  // need to double-check
-  function isPageError(statusCode) {
-    const firstDigit = Math.floor(statusCode / 100);
-    return firstDigit === 4 || firstDigit === 5;
-  }
 </script>
 
-{#if !isPageError($page.status)}
-  <AppShell>
-    <svelte:fragment slot="header">
-      <Header user={data.user} />
-    </svelte:fragment>
-    <slot />
-  </AppShell>
-{/if}
+<AppShell>
+  <svelte:fragment slot="header">
+    <Header user={data.user} />
+  </svelte:fragment>
+  <slot />
+</AppShell>
