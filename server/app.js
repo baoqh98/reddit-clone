@@ -32,9 +32,6 @@ const corsOptions = {
 
 app.use(morgan('dev'));
 
-// app.use(express.static(path.join(__dirname, 'svelte', 'public')));
-// app.options('*', cors());
-
 app.use(
   cors({
     origin: true,
