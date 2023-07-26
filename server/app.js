@@ -21,7 +21,10 @@ app.use(express.static(path.join(__dirname, 'svelte', 'public')));
 
 app.use(
   cors({
-    origin: '*',
+    origin: [
+      'http://localhost:5173/',
+      'https://reddit-clone-three-blush.vercel.app/',
+    ],
     credentials: true,
   })
 );
