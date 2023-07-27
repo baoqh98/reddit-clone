@@ -3,13 +3,13 @@ const baseURL = import.meta.env.PROD
   : 'http://localhost:3000';
 
 export const apiEndpoint = {
-  topicEndpoint: `${baseURL}/api/topic`,
-  photoPostEndpoint: `${baseURL}/api/post/mediaPost`,
-  postEndpoint: `${baseURL}/api/post`,
-  logoutEndpoint: `${baseURL}/api/auth/logout`,
-  registerEndpoint: `${baseURL}/api/aut/register`,
-  loginEndpoint: `${baseURL}/api/auth/login`,
-  userEndPoint: `${baseURL}/api/user`,
-  commentEndpoint: `${baseURL}/api/comment`,
-  voteEndpoint: `${baseURL}/api/vote`,
+  topicEndpoint: `${baseURL}/topic`,
+  photoPostEndpoint: `${baseURL}/post/mediaPost`,
+  postEndpoint: `${baseURL}/post`,
+  logoutEndpoint: `${baseURL}/auth/logout`,
+  registerEndpoint: `${baseURL}/aut/register`,
+  loginEndpoint: `${baseURL}/auth/login`,
+  userEndPoint: `${baseURL}/user`,
+  commentEndpoint: `${baseURL}/comment`,
+  voteEndpoint: `${baseURL}/vote`,
 };
