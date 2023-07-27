@@ -10,8 +10,13 @@ const sendTokenToCookie = (accessToken, req, res) => {
   res.cookie('reddit_clone_jwt', accessToken, {
     expires: new Date(Date.now() + accessTokenExpiresIn * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+    secure:
+      process.env.NODE_ENV === 'production'
+        ? true
+        : req.secure || req.headers['x-forwarded-proto'] === 'https',
   });
+
+  console.log(req.headers['x-forwarded-proto']);
 };
 
 exports.register = catchAsync(async (req, res, next) => {

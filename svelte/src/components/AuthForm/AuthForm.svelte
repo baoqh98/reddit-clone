@@ -27,7 +27,9 @@
         password,
         passwordConfirm,
       };
-      await axios.post(apiEndpoint.registerEndpoint, registerForm);
+      await axios.post(apiEndpoint.registerEndpoint, registerForm, {
+        withCredentials: true,
+      });
       handleToastSetting(
         `Register successfully!`,
         'variant-filled-success',
@@ -51,11 +53,10 @@
         password,
       };
 
-      const res = (
-        await axios.post(apiEndpoint.loginEndpoint, loginForm, {
-          withCredentials: true,
-        })
-      ).data;
+      await axios.post(apiEndpoint.loginEndpoint, loginForm, {
+        withCredentials: true,
+      });
+
       handleToastSetting(
         `Login successfully!`,
         'variant-filled-success',
