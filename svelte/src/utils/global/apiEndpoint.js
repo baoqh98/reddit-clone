@@ -1,7 +1,6 @@
 const baseURL = import.meta.env.PROD
   ? 'https://reddit-clone-bqh-api-web-service.onrender.com/api'
   : 'http://localhost:3000/api';
-console.log(baseURL);
 export const apiEndpoint = {
   topicEndpoint: `${baseURL}/topic`,
   photoPostEndpoint: `${baseURL}/post/mediaPost`,

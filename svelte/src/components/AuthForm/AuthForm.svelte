@@ -1,10 +1,9 @@
 <script>
   import { Toast } from '@skeletonlabs/skeleton';
-  import { navigating } from '$app/stores';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import axios from 'axios';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
-  import { beforeUpdate, onMount } from 'svelte';
+  import { beforeUpdate } from 'svelte';
 
   export let isAuthenticated;
   export let authFormType;
