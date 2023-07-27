@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -12,13 +11,15 @@ const postRoutes = require('./routes/postRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const voteRoutes = require('./routes/voteRoutes');
-
+// process.env.ALLOWED_ORIGINS?.split(',') ??
 const app = express();
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
   'http://localhost:5173',
 ];
 
-app.use(morgan('dev'));
+console.log(ALLOWED_ORIGINS);
+
+// app.use(morgan('dev'));
 
 app.use(
   cors({
