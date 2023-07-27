@@ -1,6 +1,5 @@
 <script>
   // custom Skeleton theme:
-  import { page } from '$app/stores';
   import '../theme.postcss';
   // This contains the bulk of Skeletons required styles:
   import '@skeletonlabs/skeleton/styles/skeleton.css';

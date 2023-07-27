@@ -50,12 +50,12 @@
 </script>
 
 <header class="bg-white shadow-md">
-  <div class="flex items-center justify-between px-4 py-3">
+  <div class="flex items-center px-4 py-3">
     <div class="flex items-center">
       <a href="/" class="text-gray-700 font-bold text-lg">reddit</a>
     </div>
     <div
-      class="relative md:flex flex flex-col items-center w-[25%] gap-1 rounded"
+      class="relative md:flex flex flex-col items-center w-[25%] gap-1 rounded mx-auto"
     >
       <div
         class="input-group grid-cols-[auto_1fr_auto] focus:border-secondary-500 focus-within:border-secondary-500 rounded-b-[-16px]"
@@ -128,22 +128,22 @@
                 <hr class="my-3" />
                 <ul>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <span class="flex-auto ml-8">Privacy Policy</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <span class="flex-auto ml-8">Content Policy</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <span class="flex-auto ml-8">User Agreement</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <span class="flex-auto ml-8"
                         >Moderator Code of Conduct</span
                       >
