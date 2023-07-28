@@ -24,6 +24,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+    exposedHeaders: 'set-cookie',
   })
 );
 
