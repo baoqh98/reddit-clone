@@ -29,6 +29,7 @@
       };
       await axios.post(apiEndpoint.registerEndpoint, registerForm, {
         withCredentials: true,
+        credentials: 'include',
       });
       handleToastSetting(
         `Register successfully!`,
@@ -55,6 +56,7 @@
 
       await axios.post(apiEndpoint.loginEndpoint, loginForm, {
         withCredentials: true,
+        credentials: 'include',
       });
 
       handleToastSetting(
