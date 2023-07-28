@@ -19,7 +19,7 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
 
 console.log(ALLOWED_ORIGINS);
 
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(
   cors({
