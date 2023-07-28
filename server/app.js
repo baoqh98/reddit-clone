@@ -11,10 +11,7 @@ const postRoutes = require('./routes/postRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const voteRoutes = require('./routes/voteRoutes');
-<<<<<<< HEAD
 
-=======
->>>>>>> fb23c0f6f5d9d06843b52da163a698ca80f9ab2e
 const app = express();
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
   'http://localhost:5173',

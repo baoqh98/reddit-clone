@@ -13,6 +13,7 @@ const sendTokenToCookie = (accessToken, req, res) => {
     secure:
       process.env.NODE_ENV === 'production' ||
       req.headers['x-forwarded-proto'] === 'https',
+    maxAge: 1000 * 60 * 60 * 48,
     sameSite: 'none',
   });
 

@@ -2,8 +2,6 @@ const baseURL = import.meta.env.PROD
   ? 'https://calm-pear-pig-wig.cyclic.app/api'
   : 'http://localhost:3000/api';
 
-// const baseURL = 'https://calm-pear-pig-wig.cyclic.app/api';
-
 console.log(baseURL);
 
 export const apiEndpoint = {
