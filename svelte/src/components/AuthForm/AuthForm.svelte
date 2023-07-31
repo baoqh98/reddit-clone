@@ -1,78 +1,53 @@
 <script>
+  import { enhance } from '$app/forms';
   import { Toast } from '@skeletonlabs/skeleton';
-  import { apiEndpoint } from '../../utils/global/apiEndpoint';
-  import axios from 'axios';
+
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
-  import { beforeUpdate } from 'svelte';
 
   export let isAuthenticated;
   export let authFormType;
 
-  beforeUpdate(() => {
-    if (isAuthenticated) {
-      location.href = '/';
-    }
-  });
+  let username = `username${Math.random().toFixed(2) * 100}`;
+  let email = `${username}@email.com`;
+  let password = 'password123';
+  let passwordConfirm = 'password123';
 
-  let username = '';
-  let email = '';
-  let password = '';
-  let passwordConfirm = '';
-
-  async function register() {
-    try {
-      const registerForm = {
-        username,
-        email,
-        password,
-        passwordConfirm,
-      };
-      await axios.post(apiEndpoint.registerEndpoint, registerForm, {
-        withCredentials: true,
-        credentials: 'include',
-      });
-      handleToastSetting(
-        `Register successfully!`,
-        'variant-filled-success',
-        undefined,
-        (response) => {
-          if (response.status === 'closed') {
-            window.location = '/auth/login';
-          }
-        },
-        1000
-      );
-    } catch (error) {
-      handleToastSetting(error.response.data.message);
-    }
-  }
-
-  async function login() {
-    try {
-      const loginForm = {
-        username,
-        password,
-      };
-
-      await axios.post(apiEndpoint.loginEndpoint, loginForm, {
-        withCredentials: true,
-        credentials: 'include',
-      });
-
-      handleToastSetting(
-        `Login successfully!`,
-        'variant-filled-success',
-        undefined,
-        (response) => {
-          if (response.status === 'closed') {
-            window.location = '/';
-          }
-        },
-        1000
-      );
-    } catch (error) {
-      handleToastSetting(error.response.data.message);
-    }
+  function enhancer() {
+    return async ({ result }) => {
+      if (result.type === 'success') {
+        handleToastSetting(
+          result.data.message,
+          'variant-filled-success',
+          undefined,
+          (response) => {
+            if (response.status === 'closed' && !result.data.register) {
+              window.location = '/';
+            } else if (response.status === 'closed' && result.data.register) {
+              window.location = '/auth/login';
+            }
+          },
+          3000
+        );
+      } else if (result.type === 'error') {
+        result.error.messages.forEach((message) => {
+          handleToastSetting(
+            message,
+            'variant-filled-error',
+            undefined,
+            undefined,
+            4000
+          );
+        });
+      } else {
+        handleToastSetting(
+          'Something Wrong!',
+          'variant-filled-error',
+          undefined,
+          undefined,
+          2000
+        );
+      }
+    };
   }
 </script>
 
@@ -92,11 +67,12 @@
             Login your account
           {/if}
         </h1>
+
         <form
-          on:submit|preventDefault={authFormType === 'register'
-            ? register
-            : login}
           class="flex flex-col gap-3"
+          method="POST"
+          action={authFormType === 'register' ? '?/register' : '?/login'}
+          use:enhance={enhancer}
         >
           <div class="w-full">
             <label class="label">
@@ -104,7 +80,8 @@
                 class="input focus:border-secondary-500 focus-within:border-secondary-500"
                 type="text"
                 id="username"
-                placeholder="username"
+                name="username"
+                placeholder="Username"
                 bind:value={username}
               />
             </label>
@@ -117,7 +94,8 @@
                   class="input focus:border-secondary-500 focus-within:border-secondary-500"
                   type="text"
                   id="email"
-                  placeholder="email"
+                  name="email"
+                  placeholder="Email"
                   bind:value={email}
                 />
               </label>
@@ -127,10 +105,11 @@
           <div class="w-full">
             <label class="label">
               <input
+                name="password"
                 class="input focus:border-secondary-500 focus-within:border-secondary-500"
                 type="password"
                 id="password"
-                placeholder="password"
+                placeholder="Password"
                 bind:value={password}
               />
             </label>
@@ -140,10 +119,11 @@
             <div class="w-full">
               <label class="label">
                 <input
+                  name="passwordConfirm"
                   class="input focus:border-secondary-500 focus-within:border-secondary-500"
                   type="password"
-                  id="confirmPassword"
-                  placeholder="Confirm Password"
+                  id="passwordConfirm"
+                  placeholder="passwordConfirm"
                   bind:value={passwordConfirm}
                 />
               </label>
@@ -152,7 +132,6 @@
 
           <div class="flex justify-end">
             <button
-              type="submit"
               class="btn variant-filled-secondary rounded-full font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
             >
               {#if authFormType === 'register'}

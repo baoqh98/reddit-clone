@@ -39,13 +39,7 @@ const userSchema = new mongoose.Schema(
       },
       select: false,
     },
-    dateOfBirth: {
-      type: Date,
-    },
-    age: {
-      type: Number,
-      default: 0,
-    },
+
     created: {
       type: Date,
       default: Date.now(),
@@ -76,16 +70,6 @@ userSchema.pre('save', async function (next) {
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
   this.passwordChangedAt = Date.now() - 1000;
-  next();
-});
-
-userSchema.pre('save', function (next) {
-  const now = Date.now();
-  const diff = now - this.dateOfBirth;
-  const ageDate = new Date(diff);
-  const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-  this.age = age;
   next();
 });
 

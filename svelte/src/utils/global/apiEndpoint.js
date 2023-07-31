@@ -9,7 +9,7 @@ export const apiEndpoint = {
   photoPostEndpoint: `${baseURL}/post/mediaPost`,
   postEndpoint: `${baseURL}/post`,
   logoutEndpoint: `${baseURL}/auth/logout`,
-  registerEndpoint: `${baseURL}/aut/register`,
+  registerEndpoint: `${baseURL}/auth/register`,
   loginEndpoint: `${baseURL}/auth/login`,
   userEndPoint: `${baseURL}/user`,
   commentEndpoint: `${baseURL}/comment`,

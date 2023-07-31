@@ -5,14 +5,14 @@ import jsonwebtoken from 'jsonwebtoken';
 import axios from 'axios';
 import { apiEndpoint } from './utils/global/apiEndpoint';
 
-const unProtectedRoutes = [];
+// const unProtectedRoutes = [];
 
-function redirect(location, body) {
-  return new Response(body, {
-    status: 303,
-    headers: { location },
-  });
-}
+// function redirect(location, body) {
+//   return new Response(body, {
+//     status: 303,
+//     headers: { location },
+//   });
+// }
 
 const decodeToken = async (token, secretKey) => {
   return jsonwebtoken.verify(token, secretKey, {
@@ -23,6 +23,7 @@ const decodeToken = async (token, secretKey) => {
 export async function handle({ event, resolve }) {
   try {
     const jwt = event.cookies.get('reddit_clone_jwt');
+
     if (!jwt) {
       event.locals.user = {
         isAuthenticated: false,
