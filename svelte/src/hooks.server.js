@@ -14,6 +14,10 @@ import { apiEndpoint } from './utils/global/apiEndpoint';
 //   });
 // }
 
+export async function handleFetch({ request, fetch, cookies }) {
+  return fetch(request);
+}
+
 const decodeToken = async (token, secretKey) => {
   return jsonwebtoken.verify(token, secretKey, {
     ignoreExpiration: true,

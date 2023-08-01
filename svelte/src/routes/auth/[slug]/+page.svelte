@@ -2,10 +2,14 @@
   import AuthForm from '../../../components/AuthForm/AuthForm.svelte';
   export let data;
 
-  $: slug = data.slug;
+  $: authFormType = data.authFormType;
   $: isAuthenticated = data.user.isAuthenticated;
 </script>
 
 <div>
-  <AuthForm authFormType={slug} {isAuthenticated} />
+  {#if authFormType}
+    <AuthForm {authFormType} {isAuthenticated} />
+  {:else if data.logout}
+    <div>Logout ...</div>
+  {/if}
 </div>

@@ -1,6 +1,6 @@
 <script>
-  import { Autocomplete, Avatar } from '@skeletonlabs/skeleton';
   import axios from 'axios';
+  import { Autocomplete, Avatar } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
   import { clickOutside } from '../../utils/DOM/clickOutside';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
@@ -26,18 +26,6 @@
     isShowAutoComplete = !isShowAutoComplete;
   }
 
-  async function logout() {
-    try {
-      await axios
-        .get(apiEndpoint.logoutEndpoint, {
-          withCredentials: true,
-        })
-        .then(() => location.reload());
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   onMount(async () => {
     const res = await axios.get(apiEndpoint.topicEndpoint);
     searchOptions = res.data.data.map((item) => ({
@@ -47,6 +35,8 @@
       meta: item._id,
     }));
   });
+
+  function logout() {}
 </script>
 
 <header class="bg-white shadow-md">
@@ -152,11 +142,13 @@
                 </ul>
               </nav>
               <hr class="my-3" />
-              <button
-                type="button"
+
+              <a
+                href="/auth/logout"
                 class="btn btn-sm font-bold variant-filled-secondary w-full"
-                on:click={logout}>Logout</button
               >
+                Logout
+              </a>
             </div>{/if}
         </div>
       </div>

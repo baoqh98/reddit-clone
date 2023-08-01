@@ -74,4 +74,7 @@ export const actions = {
       });
     }
   },
+  logout: async ({ request, cookies }) => {
+    cookies.delete('reddit_clone_jwt');
+  },
 };

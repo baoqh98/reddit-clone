@@ -1,4 +1,5 @@
 /** @type {import('./$types').PageLoad} */
+
 import axios from 'axios';
 import { apiEndpoint } from '../utils/global/apiEndpoint';
 

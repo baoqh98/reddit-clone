@@ -2,17 +2,21 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
 export const csr = true;
-export async function load({ params, parent }) {
+export async function load({ params, parent, cookies }) {
   const { user } = await parent();
   if (params.slug === 'register') {
     return {
-      slug: 'register',
+      authFormType: 'register',
       user,
     };
   } else if (params.slug === 'login') {
     return {
-      slug: 'login',
+      authFormType: 'login',
       user,
+    };
+  } else if (params.slug === 'logout') {
+    return {
+      logout: true,
     };
   }
 
