@@ -7,10 +7,10 @@
   export let isAuthenticated;
   export let authFormType;
 
-  let username = `username${Math.random().toFixed(2) * 100}`;
-  let email = `${username}@email.com`;
-  let password = 'password123';
-  let passwordConfirm = 'password123';
+  let username = '';
+  let email = '';
+  let password = '';
+  let passwordConfirm = '';
 
   function enhancer() {
     return async ({ result }) => {
