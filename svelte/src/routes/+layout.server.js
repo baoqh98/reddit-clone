@@ -9,7 +9,7 @@ export function load({ request, locals, cookies, params }) {
       path: '/',
     });
 
-    throw redirect(307, '');
+    throw redirect(307, '/');
   }
 
   return {
