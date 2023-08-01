@@ -11,13 +11,12 @@ const postRoutes = require('./routes/postRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const voteRoutes = require('./routes/voteRoutes');
+const compression = require('compression');
 
 const app = express();
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
   'http://localhost:5173',
 ];
-
-console.log(ALLOWED_ORIGINS);
 
 app.use(morgan('dev'));
 
@@ -33,6 +32,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(compression());
 
 // 3) routes
 app.use('/api/user', userRoutes);
