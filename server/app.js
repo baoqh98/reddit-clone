@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 
 app.use(
   cors({
-    origin: true,
+    origin: ALLOWED_ORIGINS,
     credentials: true,
     exposedHeaders: 'set-cookie',
   })
