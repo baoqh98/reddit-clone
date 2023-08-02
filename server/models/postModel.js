@@ -102,7 +102,13 @@ postSchema.pre('find', function (next) {
 });
 
 postSchema.pre('findOne', function (next) {
-  this.populate({ path: 'comments' }).populate('topic').populate('vote');
+  this.populate({ path: 'comments' })
+    .populate('topic')
+    .populate('vote')
+    .populate({
+      path: 'author',
+      select: 'username',
+    });
   next();
 });
 

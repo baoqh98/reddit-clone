@@ -9,9 +9,10 @@
   export let post;
   export let user;
 
+  console.log(post);
+
   const upvote = async () => {
     try {
-      console.log('upvote');
       await vote(`${apiEndpoint.voteEndpoint}/upvote`, 'UPVOTE', user, post.id);
       const postData = (
         await axios.get(`${apiEndpoint.postEndpoint}/${post.id}`)
@@ -80,7 +81,11 @@
         </div>
         <div class="h-4 border-[1px]" />
         <div class="text-xs font-light text-gray-500">
-          Posted by u/{post.author.username}
+          Posted by
+          <a
+            class="text-secondary-500 hover:underline"
+            href={`/user/${post.author.username}`}>{post.author.username}</a
+          >
           {moment(post.createdAt).fromNow()}
         </div>
       </div>
