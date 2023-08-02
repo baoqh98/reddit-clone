@@ -1,7 +1,8 @@
 on the way to go with svelte and nodejs express
 
-to start server:
-npm start
+demo: https://reddit-clone-bqh.vercel.app
 
-to open client:
-cd svelte && npm run dev
+to start
+npm run dev
+
+document on the way to go
