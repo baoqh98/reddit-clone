@@ -35,8 +35,6 @@
       meta: item._id,
     }));
   });
-
-  function logout() {}
 </script>
 
 <header class="bg-white shadow-md">

@@ -7,9 +7,15 @@
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
   import { vote, isVoted } from '$lib/votingHandler';
+  import { clickOutside } from '../../utils/DOM/clickOutside';
 
   export let posts;
   export let user;
+
+  let isShowMenuBar = false;
+  function handleMenuPost() {
+    isShowMenuBar = !isShowMenuBar;
+  }
 
   const upvote = async (postId) => {
     try {
@@ -71,11 +77,7 @@
         </div>
       </div>
       <div class="col-span-11 px-2 py-3">
-        <div
-          on:click={() => goto(`/post/${post.id}`)}
-          on:keydown
-          class="flex flex-col gap-2 cursor-pointer"
-        >
+        <div class="flex flex-col gap-2">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-row items-center gap-1">
               <Avatar src="" width="w-6" rounded="rounded-full" />
@@ -86,17 +88,53 @@
               Posted by u/{post.author.username}
               {moment(post.createdAt).fromNow()}
             </div>
+            {#if user.username === post.author.username}
+              <div class="relative ml-auto">
+                <button
+                  on:click={handleMenuPost}
+                  use:clickOutside
+                  on:click_outside={() => (isShowMenuBar = false)}
+                  class="btn-sm hover:variant-filled-surface rounded"
+                >
+                  <i class="fa-solid fa-ellipsis" />
+                </button>
+                {#if isShowMenuBar}
+                  <div
+                    class="absolute top-[110%] right-0 z-100 flex flex-col gap-1 card bg-white shadow-md overflow-hidden"
+                  >
+                    <button
+                      class="btn btn-sm justify-start hover:bg-red-200 hover:text-red-900 rounded-none flex gap-1 items-center text-sm text-left"
+                    >
+                      <i class="fa-solid fa-trash-can" />
+                      <span>Delete</span>
+                    </button>
+                    <button
+                      class="btn btn-sm justify-start hover:bg-red-200 hover:text-red-900 rounded-none flex gap-1 items-center text-sm"
+                    >
+                      <i class="fa-solid fa-pen" />
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                {/if}
+              </div>
+            {/if}
           </div>
-          <h1 class="text-black font-semibold">
-            {post.title}
-          </h1>
-          {#if post.postType === 'media'}
-            <img src={post.mediaLocation} alt={post.title} />
-          {:else if post.postType === 'content'}
-            <p class="text-[16px]">
-              {post.content}
-            </p>
-          {/if}
+          <div
+            class="flex flex-col gap-2 cursor-pointer"
+            on:click={() => goto(`/post/${post.id}`)}
+            on:keydown
+          >
+            <h1 class="text-black font-semibold">
+              {post.title}
+            </h1>
+            {#if post.postType === 'media'}
+              <img src={post.mediaLocation} alt={post.title} />
+            {:else if post.postType === 'content'}
+              <p class="text-[16px]">
+                {post.content}
+              </p>
+            {/if}
+          </div>
         </div>
         <div class="flex gap-1 mt-2">
           <button
