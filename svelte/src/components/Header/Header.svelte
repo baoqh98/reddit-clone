@@ -40,9 +40,19 @@
 </script>
 
 <header class="bg-white shadow-md">
-  <div class="flex items-center px-4 py-3">
+  <div class="flex items-center px-4 py-1">
     <div class="flex items-center">
-      <a href="/" class="text-gray-700 font-bold text-lg">reddit</a>
+      <a
+        href="/"
+        class="text-gray-700 font-bold text-lg flex flex-row items-center gap-2"
+      >
+        <img
+          class="h-9"
+          src="https://upload.wikimedia.org/wikipedia/en/thumb/b/bd/Reddit_Logo_Icon.svg/800px-Reddit_Logo_Icon.svg.png"
+          alt="Logo"
+        />
+        <span>Reddit</span>
+      </a>
     </div>
     <div
       class="relative md:flex flex flex-col items-center w-[25%] gap-1 rounded mx-auto"

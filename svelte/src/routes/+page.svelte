@@ -12,8 +12,8 @@
   function handleModal() {
     const modal = {
       type: 'alert',
-      title: 'Example Alert',
-      body: 'This is an example modal.',
+      title: 'Create Topic',
+      body: 'Topic model on the way',
     };
     modalStore.trigger(modal);
   }

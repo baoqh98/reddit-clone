@@ -9,8 +9,6 @@
   export let post;
   export let user;
 
-  console.log(post);
-
   const upvote = async () => {
     try {
       await vote(`${apiEndpoint.voteEndpoint}/upvote`, 'UPVOTE', user, post.id);

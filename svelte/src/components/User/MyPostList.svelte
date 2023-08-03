@@ -8,6 +8,9 @@
 </script>
 
 {#if postByUser.length === 0 || !postByUser}
+  <div class="text-center text-lg italic font-semibold my-5">
+    User have no post here
+  </div>
   <EmptyPost />
 {/if}
 
@@ -16,6 +19,7 @@
     <!-- POST -->
     <MyPost {post} {moment} />
     <!-- COMMENT -->
+
     {#each post.comments as comment}
       <MyPostComment {comment} {moment} />
     {/each}
