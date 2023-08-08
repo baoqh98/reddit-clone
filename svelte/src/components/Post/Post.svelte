@@ -2,20 +2,15 @@
   /** @type {import('./$types').PageLoad} */
   import { Avatar, Toast } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
-  import moment from 'moment';
-  import axios from 'axios';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
   import { vote, isVoted } from '$lib/votingHandler';
-  import { clickOutside } from '../../utils/DOM/clickOutside';
+  import moment from 'moment';
+  import axios from 'axios';
+  import MenuBar from './MenuBar.svelte';
 
   export let posts;
   export let user;
-
-  let isShowMenuBar = false;
-  function handleMenuPost() {
-    isShowMenuBar = !isShowMenuBar;
-  }
 
   const upvote = async (postId) => {
     try {
@@ -88,36 +83,7 @@
               Posted by u/{post.author.username}
               {moment(post.createdAt).fromNow()}
             </div>
-            {#if user.username === post.author.username}
-              <div class="relative ml-auto">
-                <button
-                  on:click={handleMenuPost}
-                  use:clickOutside
-                  on:click_outside={() => (isShowMenuBar = false)}
-                  class="btn-sm hover:variant-filled-surface rounded"
-                >
-                  <i class="fa-solid fa-ellipsis" />
-                </button>
-                {#if isShowMenuBar}
-                  <div
-                    class="absolute top-[110%] right-0 z-100 flex flex-col gap-1 card bg-white shadow-md overflow-hidden"
-                  >
-                    <button
-                      class="btn btn-sm justify-start hover:bg-red-200 hover:text-red-900 rounded-none flex gap-1 items-center text-sm text-left"
-                    >
-                      <i class="fa-solid fa-trash-can" />
-                      <span>Delete</span>
-                    </button>
-                    <button
-                      class="btn btn-sm justify-start hover:bg-red-200 hover:text-red-900 rounded-none flex gap-1 items-center text-sm"
-                    >
-                      <i class="fa-solid fa-pen" />
-                      <span>Edit</span>
-                    </button>
-                  </div>
-                {/if}
-              </div>
-            {/if}
+            <MenuBar {post} {user} />
           </div>
           <div
             class="flex flex-col gap-2 cursor-pointer"

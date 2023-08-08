@@ -21,7 +21,7 @@ router
   .route('/:id')
   .get(getPost)
   .patch(authProtect, updatePost)
-  .delete(deletePost);
+  .delete(authProtect, deletePost);
 router.route('/postByUser/:username').get(getPostByUser);
 
 module.exports = router;

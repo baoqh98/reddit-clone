@@ -56,6 +56,7 @@
       <div class="font-semibold text-sm">
         {!post.vote ? 0 : post.vote.voteScore}
       </div>
+
       <button
         on:click={downvote}
         class="text-[28px] text-slate-400 hover:text-secondary-500 hover:bg-slate-200 h-6 w-6"

@@ -7,7 +7,8 @@
   import Footer from '../components/Topic/Footer.svelte';
 
   export let data;
-  const { posts, user } = data;
+  const { user } = data;
+  $: posts = data.posts;
 
   function handleModal() {
     const modal = {

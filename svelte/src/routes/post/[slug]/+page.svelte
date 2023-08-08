@@ -10,8 +10,6 @@
   // reactive change every time data invoke
   $: post = data.post;
   $: comments = data.post.comments;
-
-  console.log(user);
 </script>
 
 <section class="bg-zinc-800 h-full">
