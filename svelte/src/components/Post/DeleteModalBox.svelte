@@ -47,7 +47,7 @@
       on:click={modalStore.close}
       class="btn bg-red-500 text-white">Cancel</button
     >
-    <form action="?/deletePost" method="POST" use:enhance={enhancer}>
+    <form action="/?/deletePost" method="POST" use:enhance={enhancer}>
       <input type="hidden" name="postIdDelete" value={post.id} />
       <button
         disabled={loading}

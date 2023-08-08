@@ -5,7 +5,7 @@
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
   export let user;
 
-  function handleEnhance({ formElement, formData, action, cancel, submitter }) {
+  function enhancer({ formElement, formData, action, cancel, submitter }) {
     return async ({ result, update }) => {
       if (result.type === 'success') {
         handleToastSetting('New comment added!', 'bg-success-500');
@@ -19,11 +19,13 @@
 
 <Toast />
 
-<form method="POST" action="?/comment" use:enhance={handleEnhance}>
+<form method="POST" action="?/comment" use:enhance={enhancer}>
   <div class="flex flex-col my-2 mx-16">
     <span class="text-sm">
       {#if user.isAuthenticated}
-        Comment as <a href="/me" class="text-secondary-500">{user.username}</a>
+        Comment as <a href={`/user/${user.username}`} class="text-secondary-500"
+          >{user.username}</a
+        >
       {:else}
         You need to <a class="text-secondary-500" href="/auth/login">log in</a> to
         comment
@@ -40,6 +42,7 @@
         />
       </label>
       <button
+        type="submit"
         disabled={!user.isAuthenticated}
         class="btn btn-sm variant-filled-secondary place-self-end"
         >Comment</button

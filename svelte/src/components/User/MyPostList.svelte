@@ -5,6 +5,7 @@
   import EmptyPost from './EmptyPost.svelte';
 
   export let postByUser;
+  export let user;
 </script>
 
 {#if postByUser.length === 0 || !postByUser}
@@ -17,7 +18,7 @@
 {#each postByUser as post}
   <div class="card rounded mb-4">
     <!-- POST -->
-    <MyPost {post} {moment} />
+    <MyPost {user} {post} {moment} />
     <!-- COMMENT -->
 
     {#each post.comments as comment}

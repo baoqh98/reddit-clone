@@ -1,6 +1,6 @@
 import { apiEndpoint } from '../../../utils/global/apiEndpoint';
 import axios from 'axios';
-/** @type {import('./$types').PageLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
   const userInfo = await axios.get(
     `${apiEndpoint.userEndPoint}?username=${params.slug}`

@@ -83,7 +83,9 @@
               Posted by u/{post.author.username}
               {moment(post.createdAt).fromNow()}
             </div>
-            <MenuBar {post} {user} />
+            {#if user.username === post.author.username}
+              <MenuBar {post} />
+            {/if}
           </div>
           <div
             class="flex flex-col gap-2 cursor-pointer"
