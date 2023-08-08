@@ -13,6 +13,14 @@
     User have no post here
   </div>
   <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
+  <EmptyPost />
 {/if}
 
 {#each postByUser as post}

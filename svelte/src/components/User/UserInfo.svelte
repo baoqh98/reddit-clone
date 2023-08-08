@@ -1,10 +1,11 @@
 <script>
   import { Avatar } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
+  import moment from 'moment';
 
   export let userFromParams;
   export let postNumber;
-  const { username, age, dateOfBirth } = userFromParams;
+  const { username } = userFromParams;
 </script>
 
 <div class="relative card p-3 border border-slate-300 rounded overflow-hidden">
@@ -33,10 +34,12 @@
         </span>
       </div>
       <div class="flex flex-col flex-1">
-        <span class="text-md font-semibold">{age}</span>
+        <span class="text-md font-semibold">Date of Birth </span>
         <span class="text-sm"
           ><i class="fa-solid fa-cake-candles text-blue-500" />
-          <span class="ml-1 text-gray-500 font-normal">{dateOfBirth}</span>
+          <span class="ml-1 text-gray-500 font-normal"
+            >{moment().format('DD-MM-YYYY')}</span
+          >
         </span>
       </div>
     </div>

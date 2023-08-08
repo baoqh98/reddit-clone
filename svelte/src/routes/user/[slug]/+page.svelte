@@ -15,7 +15,7 @@
         <MyPostList {user} {postByUser} />
       </div>
       <div class="col-span-1">
-        <UserInfo {userFromParams} postNumber={postByUser.length} />
+        <UserInfo {userFromParams} postNumber={postByUser.length || 0} />
       </div>
     </div>
   </div>
