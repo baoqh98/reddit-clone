@@ -1,20 +1,10 @@
-/** @type {import('@sveltejs/kit').Handle} */
-/** @type {import('@sveltejs/kit').HandleFetch} */
 import { CLIENT_JWT_SECRET } from '$env/static/private';
 import jsonwebtoken from 'jsonwebtoken';
 import axios from 'axios';
-import { apiEndpoint } from './utils/global/apiEndpoint';
+import { apiEndpoint, api_base_url } from './utils/global/apiEndpoint';
 
-// const unProtectedRoutes = [];
-
-// function redirect(location, body) {
-//   return new Response(body, {
-//     status: 303,
-//     headers: { location },
-//   });
-// }
-
-export async function handleFetch({ request, fetch, cookies }) {
+/** @type {import('@sveltejs/kit').HandleFetch} */
+export async function handleFetch({ request, fetch, event }) {
   return fetch(request);
 }
 

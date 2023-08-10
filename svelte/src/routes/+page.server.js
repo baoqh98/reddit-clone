@@ -1,14 +1,14 @@
 import FormDataFeature from '$lib/FormDataFeature';
 import axios from 'axios';
-import { apiEndpoint } from '../utils/global/apiEndpoint';
+import { apiEndpoint, api_base_url } from '../utils/global/apiEndpoint';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ({ parent }) => {
+export const load = async ({ parent, fetch }) => {
   const { user } = await parent();
-  const res = (await axios.get(apiEndpoint.postEndpoint)).data;
-  const posts = res.data;
-  return { user, posts };
+  const res = await fetch(apiEndpoint.postEndpoint);
+  const { data } = await res.json();
+  return { user, posts: data };
 };
 
 /** @type {import('./$types').Actions} */
@@ -18,18 +18,19 @@ export const actions = {
       const formDataFeature = new FormDataFeature({ request, locals, params }, [
         'postIdDelete',
       ]);
-      const formDataObj = await formDataFeature.getFormData();
-      const { postIdDelete } = formDataObj;
+      const { postIdDelete } = await formDataFeature.getFormData();
 
-      await axios.delete(`${apiEndpoint.postEndpoint}/${postIdDelete}`, {
+      const res = await fetch(`${apiEndpoint.postEndpoint}/${postIdDelete}`, {
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${locals.user.accessToken}`,
         },
       });
 
+      const data = await res.json();
+
       return { success: true, message: 'Your post delete successfully!' };
     } catch (err) {
-      console.log(err);
       throw error(401, {
         message:
           'Something wrong! Check your account authorization or send us the the report!',
@@ -37,4 +38,6 @@ export const actions = {
       });
     }
   },
+
+  editPost: async ({ request, locals, params }) => {},
 };

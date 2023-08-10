@@ -29,8 +29,10 @@
     }
   }
 
+  let loading = false;
   async function submitPost() {
     try {
+      loading = true;
       if (!user.isAuthenticated)
         throw new AxiosError(
           "Can't submit Post because you haven't logged in yet!",
@@ -80,7 +82,9 @@
           }
         );
       }
+      loading = false;
     } catch (error) {
+      loading = false;
       if (error.code.startsWith('4' || '5')) {
         handleToastSetting(error.message);
       } else {
@@ -168,6 +172,7 @@
       <svelte:fragment slot="panel">
         <label class="label mb-4">
           <input
+            disabled={loading}
             class="input rounded focus:border-secondary-500 focus-within:border-secondary-500"
             type="text"
             placeholder="Title"
@@ -177,6 +182,7 @@
         {#if tabSet === 0}
           <label class="label">
             <textarea
+              disabled={loading}
               class="textarea focus:border-secondary-500 focus-within:border-secondary-500"
               rows="4"
               placeholder="Content"
@@ -185,6 +191,7 @@
           </label>
         {:else if tabSet === 1}
           <FileDropzone
+            disabled={loading}
             name="import_media"
             class="active:border-secondary-500 focus:border-secondary-500 focus-within:border-secondary-500"
             bind:files
@@ -206,9 +213,11 @@
           <span
             on:click={toggleNsfw}
             on:keydown={handleOnkeyDownSpan}
-            class={nsfw
+            class={nsfw && !loading
               ? 'chip variant-filled-secondary'
-              : 'chip bg-slate-200  hover:bg-slate-400'}
+              : !nsfw && !loading
+              ? 'chip bg-slate-200  hover:bg-slate-400'
+              : 'pointer-events-none'}
           >
             <span><i class="fa-solid fa-check" /></span>
             <span>not safe for work</span>
@@ -221,6 +230,7 @@
 
     <div class="flex justify-end">
       <button
+        disabled={loading}
         type="submit"
         class="btn variant-filled-primary"
         on:click={submitPost}>Post</button

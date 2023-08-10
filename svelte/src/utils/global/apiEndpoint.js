@@ -1,17 +1,15 @@
-const baseURL = import.meta.env.PROD
+export const api_base_url = import.meta.env.PROD
   ? 'https://calm-pear-pig-wig.cyclic.app/api'
   : 'http://localhost:3000/api';
 
-console.log(baseURL);
-
 export const apiEndpoint = {
-  topicEndpoint: `${baseURL}/topic`,
-  photoPostEndpoint: `${baseURL}/post/mediaPost`,
-  postEndpoint: `${baseURL}/post`,
-  logoutEndpoint: `${baseURL}/auth/logout`,
-  registerEndpoint: `${baseURL}/auth/register`,
-  loginEndpoint: `${baseURL}/auth/login`,
-  userEndPoint: `${baseURL}/user`,
-  commentEndpoint: `${baseURL}/comment`,
-  voteEndpoint: `${baseURL}/vote`,
+  topicEndpoint: `${api_base_url}/topic`,
+  photoPostEndpoint: `${api_base_url}/post/mediaPost`,
+  postEndpoint: `${api_base_url}/post`,
+  logoutEndpoint: `${api_base_url}/auth/logout`,
+  registerEndpoint: `${api_base_url}/auth/register`,
+  loginEndpoint: `${api_base_url}/auth/login`,
+  userEndPoint: `${api_base_url}/user`,
+  commentEndpoint: `${api_base_url}/comment`,
+  voteEndpoint: `${api_base_url}/vote`,
 };

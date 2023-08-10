@@ -1,18 +1,18 @@
 <script>
   /** @type {import('./$types').ActionData} */
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
-  import { Avatar, dataTableHandler } from '@skeletonlabs/skeleton';
+  import { Avatar } from '@skeletonlabs/skeleton';
   import { enhance } from '$app/forms';
   import moment from 'moment';
 
   let isEditing = false;
-  let isLoading = false;
+  let loading = false;
 
   export let comment;
   export let user;
 
   async function handleEnhance() {
-    isLoading = true;
+    loading = true;
     return async ({ result, update }) => {
       if (result.type === 'success' && result.data.delete) {
         handleToastSetting('Deleted your comment!', 'bg-error-600');
@@ -25,7 +25,7 @@
         handleToastSetting();
         update();
       }
-      isLoading = false;
+      loading = false;
     };
   }
 </script>
@@ -52,14 +52,14 @@
         <input type="hidden" name="id" hidden value={comment._id} />
         <label class="label flex flex-col items-center justify-between mr-16">
           <textarea
-            disabled={isLoading}
+            disabled={loading}
             name="commentToEdit"
             class="textarea text-sm resize-none focus:border-secondary-500 focus-within:border-secondary-500"
             rows="3"
             value={comment.text}
           />
           <button
-            disabled={isLoading}
+            disabled={loading}
             class="btn btn-sm variant-filled-secondary place-self-end"
             >Submit</button
           >
