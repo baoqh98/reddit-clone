@@ -28,6 +28,7 @@
     }
   }
 
+  // submit post function
   let loading = false;
   async function submitPost() {
     try {
