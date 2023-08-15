@@ -1,14 +1,14 @@
 <script>
   import { FileDropzone, TabGroup, Tab, Toast } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte';
+  import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
   import axios, { AxiosError } from 'axios';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
   import { handleToastSetting } from '../../utils/DOM/handleToastSetting';
 
   export let user;
+  export let topics;
 
-  let topics = [];
   let files;
   let nsfw = false;
   let tabSet = 0;
@@ -92,11 +92,6 @@
       }
     }
   }
-
-  onMount(async () => {
-    const res = (await axios.get(apiEndpoint.topicEndpoint)).data;
-    topics = res.data;
-  });
 </script>
 
 <div class="flex flex-col my-4 gap-4">
@@ -116,11 +111,12 @@
     <hr />
   </div>
 
-  <div class="w-[50%]">
+  <div class="w-[50%] mb-2">
     <label class="label">
       <select
-        class="select border-slate-300 focus:border-secondary-500 focus-within:border-secondary-500"
         bind:value={post.topic}
+        name="topic"
+        class="select border-slate-300 focus:border-secondary-500 focus-within:border-secondary-500"
       >
         {#if post.topic === ''}
           <option value="">Select a topic</option>
@@ -172,6 +168,7 @@
       <svelte:fragment slot="panel">
         <label class="label mb-4">
           <input
+            name="title"
             disabled={loading}
             class="input rounded focus:border-secondary-500 focus-within:border-secondary-500"
             type="text"
@@ -182,6 +179,7 @@
         {#if tabSet === 0}
           <label class="label">
             <textarea
+              name="content"
               disabled={loading}
               class="textarea focus:border-secondary-500 focus-within:border-secondary-500"
               rows="4"
@@ -210,6 +208,7 @@
           </FileDropzone>
         {/if}
         <div class="flex justify-end mt-4">
+          <input name="nsfw" type="hidden" value={nsfw} />
           <span
             on:click={toggleNsfw}
             on:keydown={handleOnkeyDownSpan}
@@ -230,11 +229,13 @@
 
     <div class="flex justify-end">
       <button
-        disabled={loading}
         type="submit"
+        disabled={loading}
         class="btn variant-filled-primary"
-        on:click={submitPost}>Post</button
+        on:click={submitPost}
       >
+        Post
+      </button>
     </div>
   </div>
 </div>

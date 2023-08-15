@@ -1,13 +1,15 @@
 <script>
   import Submit from '../../components/Submit/Submit.svelte';
   export let data;
+
+  const { topics, user } = data;
 </script>
 
 <div class="container max-w-screen-lg py-6">
   <div class="grid grid-cols-3 gap-4">
     <div class="col-span-2">
       <div class="flex flex-col gap-2">
-        <div class="mb-4"><Submit user={data.user} /></div>
+        <div class="mb-4"><Submit {topics} {user} /></div>
       </div>
     </div>
     <div>
