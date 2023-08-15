@@ -1,6 +1,5 @@
 <script>
   import { FileDropzone, TabGroup, Tab, Toast } from '@skeletonlabs/skeleton';
-  import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
   import axios, { AxiosError } from 'axios';
   import { apiEndpoint } from '../../utils/global/apiEndpoint';
