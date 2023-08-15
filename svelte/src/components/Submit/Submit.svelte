@@ -70,6 +70,7 @@
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${user.accessToken}`,
           },
+          withCredentials: true,
         });
       }
       if (res.data.status === 'success') {
