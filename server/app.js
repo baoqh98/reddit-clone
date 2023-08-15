@@ -18,6 +18,8 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
   'http://localhost:5173',
 ];
 
+console.log(ALLOWED_ORIGINS);
+
 app.use(morgan('dev'));
 
 app.use(

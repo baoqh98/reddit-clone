@@ -229,7 +229,6 @@
 
     <div class="flex justify-end">
       <button
-        type="submit"
         disabled={loading}
         class="btn variant-filled-primary"
         on:click={submitPost}
